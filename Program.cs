@@ -9,13 +9,13 @@ namespace Nim
     public class Program
     {
         private NimState[,,] states = new NimState[4, 6, 8];
-        private int[] pieces = new int[3];
+        
 
         private List<int[]> currentMoveHistory = new List<int[]>();
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-
+            Game g = new Game();
         }
 
         private void InitializeNimStates()
@@ -33,12 +33,6 @@ namespace Nim
             }
         }
 
-        private void ResetBoard()
-        {
-            // Resets the board to its initial state
-            pieces[0] = 3;
-            pieces[1] = 5;
-            pieces[2] = 7;
-        }
+      
     }
 }

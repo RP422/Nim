@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 namespace Nim
 {
     public class Game
-    {              
+    {   private bool turn;
+        private int[] pieces = new int[3];
         public Game()
         {
-            performAction(Menu()); 
+            ResetBoard();
+            performAction(Menu());
+            
         }        
         //Gets user's input and returns an integer
-        public static int Menu()
+        public int Menu()
         {
             int x;
             bool validInput;
@@ -25,7 +28,7 @@ namespace Nim
             return x;            
         }
         //Performs the action based on parameter passed in
-        public static void performAction(int action)
+        public void performAction(int action)
         {
             switch (action)
             {
@@ -46,11 +49,10 @@ namespace Nim
                 default:
                     break;
             }
-        }
-        
+        }        
         //Get the number of CPU Games to be played
         //Returns an integer
-        public static int getNumCPUGames()
+        public int getNumCPUGames()
         {
             int numGames; bool valid;
             do
@@ -60,17 +62,80 @@ namespace Nim
             } while (!valid || numGames <= 0);
             return numGames;
         }
-        public static void startPVPGame()
+        public void startPVPGame()
         {
-
+            randomTurn();
+            PVPPrompt();
         }
-        public static void startPVCGame()
+        public void startPVCGame()
         {
-
+            randomTurn();
         }
-        public static void startCVCGame(int numGames)
+        public void startCVCGame(int numGames)
         {
-
+            randomTurn();
+        }
+        public void randomTurn()
+        {
+            Random r = new Random();
+            turn = (r.Next(0,11) % 2 == 0);
+        }
+        public void changeTurn()
+        {
+            turn = !turn;
+        }
+        public void PVPPrompt()
+        {
+            //Player 1 goes first
+            if(turn)
+            {
+                
+                do{
+                    displayBoard();
+                    Console.WriteLine("Player 1");
+                    string s = Console.ReadLine();
+                }while(true) ;
+            }
+            else
+            {
+                do
+                {
+                    displayBoard();
+                    Console.WriteLine("Player 2");
+                    string s = Console.ReadLine();
+                } while (true);
+            }
+        }
+        public void displayBoard()
+        {
+            Console.Write("1:");
+            for(int firstRow = 0; firstRow < pieces[0]; firstRow++)
+            {
+                Console.Write("X");
+            }
+            Console.WriteLine(" Pieces Left: {0}", pieces[0]);
+            
+            Console.Write("2:");
+            for (int secondRow = 0; secondRow < pieces[1]; secondRow++)
+            {
+                Console.Write("X");
+            }
+            Console.WriteLine(" Pieces Left: {0}", pieces[1]);
+            
+            Console.Write("3:");
+            for (int thirdRow = 0; thirdRow < pieces[2]; thirdRow++)
+            {
+                Console.Write("X");
+            }
+            Console.WriteLine(" Pieces Left: {0}", pieces[2]);
+            
+        }
+        private void ResetBoard()
+        {
+            // Resets the board to its initial state
+            pieces[0] = 3;
+            pieces[1] = 5;
+            pieces[2] = 7;
         }
     }
 }
