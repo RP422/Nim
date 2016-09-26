@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace Nim
 {
-    class Program
+    public class Program
     {
         private NimState[,,] states = new NimState[3, 5, 7];
 
         private int[,,] pieces = new int[3, 5, 7];
+
         static void Main(string[] args)
         {
+
         }
+
+        public 
     }
 }

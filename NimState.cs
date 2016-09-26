@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nim
 {
-    class NimState
+    public class NimState
     {
         public double averageState { get; private set; }
         public int occuranceCount { get; private set; }
