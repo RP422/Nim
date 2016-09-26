@@ -11,6 +11,12 @@ namespace Nim
         public double averageState { get; private set; }
         public int occuranceCount { get; private set; }
 
+        public NimState()
+        {
+            averageState = 0;
+            occuranceCount = 0;
+        }
+
         public void AppendAverage(double value)
         {
             averageState = ((averageState * occuranceCount) + value) / (occuranceCount + 1);
