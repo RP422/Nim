@@ -11,9 +11,8 @@ namespace Nim
         private int[] pieces = new int[3];
         public Game()
         {
-            ResetBoard();
-            performAction(Menu());
-            
+            InstantiateBoard();
+            performAction(Menu());            
         }        
         //Gets user's input and returns an integer
         public int Menu()
@@ -111,26 +110,26 @@ namespace Nim
             Console.Write("1:");
             for(int firstRow = 0; firstRow < pieces[0]; firstRow++)
             {
-                Console.Write("X");
+                Console.Write(" X ");
             }
-            Console.WriteLine(" Pieces Left: {0}", pieces[0]);
+            Console.WriteLine();
             
             Console.Write("2:");
             for (int secondRow = 0; secondRow < pieces[1]; secondRow++)
             {
-                Console.Write("X");
+                Console.Write(" X ");
             }
-            Console.WriteLine(" Pieces Left: {0}", pieces[1]);
+            Console.WriteLine();
             
             Console.Write("3:");
             for (int thirdRow = 0; thirdRow < pieces[2]; thirdRow++)
             {
-                Console.Write("X");
+                Console.Write(" X ");
             }
-            Console.WriteLine(" Pieces Left: {0}", pieces[2]);
+            Console.WriteLine();
             
         }
-        private void ResetBoard()
+        private void InstantiateBoard()
         {
             // Resets the board to its initial state
             pieces[0] = 3;
