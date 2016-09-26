@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace NimGame
 {
     public class Game
-    {
-        public static void Main(string[] args)
-        {
-        }
+    {      
         public static void Start()
         {            
             performAction(Menu());
