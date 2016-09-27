@@ -8,7 +8,7 @@ namespace Nim
 {
     public class Program
     {
-        private NimState[,,] states = new NimState[3, 5, 7];
+        private NimState[,,] states = new NimState[4, 6, 8];
 
         private int[] pieces = new int[3];
 
