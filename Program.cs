@@ -11,7 +11,7 @@ namespace Nim
         private NimState[,,] states = new NimState[4, 6, 8];
         private int[] pieces = new int[3];
 
-        private List<int[]> currentMoveHistory = new List<int[]>();
+        private List<int[]> currentMoveHistory = new List< int[]>();
 
         static void Main(string[] args)
         {
