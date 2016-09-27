@@ -8,7 +8,9 @@ namespace Nim
 {
     public class CPUPlayer : Player
     {
+        private static NimState[,,] nimStates;
         //Randomly generates a simple CPU move
+
         public override string GetMove()
         {
             string move = "";
@@ -34,6 +36,11 @@ namespace Nim
             move += row;
             move += amount;
             return move;
+        }
+
+        public static void InitializeNimStates(NimState[,,] states)
+        {
+            nimStates = states;
         }
     }
 }

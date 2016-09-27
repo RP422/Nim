@@ -8,9 +8,8 @@ namespace Nim
 {
     public class Game
     {
-        private NimState[,,] states = new NimState[4, 6, 8];
-        private List<int[]> currentMoveHistory = new List<int[]>();
-
+        private static NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
+        private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
         public static int[] pieces = new int[3];
         private bool turn;
         private bool isAgainstCPU;
@@ -18,6 +17,7 @@ namespace Nim
         public static void Main(string[] args)
         {
             Game g = new Game();
+            CPUPlayer.InitializeNimStates(states);
         }
 
         private void InitializeNimStates()
@@ -168,6 +168,8 @@ namespace Nim
         {
             bool done, validInput;
             int row, amount;
+
+            throw new NotImplementedException();
         }
         //get the players' moves for a turn
         public string getPlayerMove(bool isCPU)
