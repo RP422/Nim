@@ -11,8 +11,9 @@ namespace Nim
         private NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
         private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
 
-        private int[] pieces = new int[3];
+        public static int[] pieces = new int[3];
         private bool turn;
+        private bool isAgainstCPU;
 
         public static void Main(string[] args)
         {
@@ -47,12 +48,11 @@ namespace Nim
         }
         public void startGame()
         {
-
             int quit;
             do
             {
                 InstantiateBoard();
-                quit = performAction(Menu());
+                quit = startGameType(Menu());
             } while (quit != 4);
 
         }
@@ -69,48 +69,45 @@ namespace Nim
             } while (!validInput || (x <= 0 || x > 4));
             return x;
         }
-
         //Performs the action based on parameter passed in
-
-        public int performAction(int action)
+        public int startGameType(int type)
         {
-         // Rename to StartGameType
-         // Rename the parameter to type; Change parameter type to an enum?
-
-            switch (action)
+            switch (type)
             {
                 //Start a PVP game
                 case 1:
                     startPVPGame();
-                    return action;
+                    isAgainstCPU = false;
+                    return type;
                 //Start a Player vs CPU game
                 case 2:
                     startPVCGame();
-                    return action;
+                    isAgainstCPU = true;
+                    return type;
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
                     startCVCGame(getNumCPUGames());
-                    return action;
+                    return type;
                 //Quit the game
                 default:
                     return 4;
             }
         }
-        
+
         public void startPVPGame()
         {
-            randomTurn();
-            PlayPVPTurn();
+            DecideFirstMove();
+            PlayGame();
         }
         public void startPVCGame()
         {
-            randomTurn();
+            DecideFirstMove();
         }
 
         public void startCVCGame(int numGames)
         {
-            randomTurn();
+            DecideFirstMove();
         }
         //Get the number of CPU Games to be played
         //Returns an integer
@@ -125,33 +122,52 @@ namespace Nim
             return numGames;
         }
 
-        public void randomTurn() // Rename to DecideFirstMove
+        public void DecideFirstMove() // Rename to DecideFirstMove
         {
             Random r = new Random();
             turn = (r.Next(0, 11) % 2 == 0);
-        }       
-        public void PlayPVPTurn() // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
+        }
+        public void PlayGame() // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
         {                         // Use interface for a Player type object? Superclass/Subclass?
-            bool done, validInput;
-            int row, amount = 0;
-            do
+            bool done;
+            if (isAgainstCPU)
             {
-                //Players' turn
-                string move = getPlayerMove(false);
-                pieces[int.Parse(move[0].ToString())-1] -= int.Parse(move[1].ToString());
-                //checks if the game is over after each move
-                done = isOver();
-                if(!done) changeTurn();
-            } while (!done);
-            if (turn)
-            {
-                Console.WriteLine("Player 1 has lost");
+                HumanPlayer p1 = new HumanPlayer("1");
+                CPUPlayer p2 = new CPUPlayer();
+                do
+                {
+                    displayBoard();
+                    //Players' turn
+                    string move = getPlayerMove(true);
+                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                    //checks if the game is over after each move
+                    done = GameOver();
+                    if (!done) changeTurn();
+                } while (!done);
             }
             else
             {
-                Console.WriteLine("Player 2 has lost");
+                HumanPlayer p1 = new HumanPlayer("1");
+                HumanPlayer p2 = new HumanPlayer("2");
+                do
+                {
+                    displayBoard();
+                    //Players' turn
+                    string move = turn ? p1.GetMove() : p2.GetMove();
+                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                    //checks if the game is over after each move
+                    done = GameOver();
+                    if (!done) changeTurn();
+                } while (!done);
+                if (turn)
+                {
+                    Console.WriteLine("Player 1 has lost");
+                }
+                else
+                {
+                    Console.WriteLine("Player 2 has lost");
+                }
             }
-            
         }
         public void PlayPVCTurn()
         {
@@ -169,7 +185,7 @@ namespace Nim
             do
             {
                 displayBoard();
-                Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2" );
+                Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
                 validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
                 if (validInput)
                 {
@@ -186,7 +202,7 @@ namespace Nim
             turn = !turn;
         }
 
-        public bool isOver()  // Rename to GameOver()?
+        public bool GameOver()  // Rename to GameOver()?
         {
             return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
@@ -215,6 +231,6 @@ namespace Nim
             Console.WriteLine();
 
         }
-        
+
     }
 }
