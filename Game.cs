@@ -157,6 +157,8 @@ namespace Nim
         {
             bool done, validInput;
             int row, amount;
+
+            throw new NotImplementedException();
         }
         //get the players' moves for a turn
         public string getPlayerMove(bool isCPU)
