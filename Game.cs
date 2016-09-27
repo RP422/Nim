@@ -10,7 +10,6 @@ namespace Nim
     {
         private static NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
         private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
-
         public static int[] pieces = new int[3];
         private bool turn;
         private bool isAgainstCPU;
@@ -77,13 +76,13 @@ namespace Nim
             {
                 //Start a PVP game
                 case 1:
-                    startPVPGame();
                     isAgainstCPU = false;
+                    startPVPGame();                    
                     return type;
                 //Start a Player vs CPU game
                 case 2:
-                    startPVCGame();
                     isAgainstCPU = true;
+                    startPVCGame();                    
                     return type;
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
@@ -104,6 +103,7 @@ namespace Nim
         public void startPVCGame()
         {
             DecideFirstMove();
+            PlayGame();
         }
 
         public void startCVCGame(int numGames)
@@ -138,13 +138,14 @@ namespace Nim
                 do
                 {
                     displayBoard();
-                    //Players' turn
-                    string move = getPlayerMove(true);
+                    //Player's turn
+                    string move = turn ? p1.GetMove() : p2.GetMove();
                     pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
                     //checks if the game is over after each move
                     done = GameOver();
                     if (!done) changeTurn();
                 } while (!done);
+                Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
             }
             else
             {
@@ -159,15 +160,8 @@ namespace Nim
                     //checks if the game is over after each move
                     done = GameOver();
                     if (!done) changeTurn();
-                } while (!done);
-                if (turn)
-                {
-                    Console.WriteLine("Player 1 has lost");
-                }
-                else
-                {
-                    Console.WriteLine("Player 2 has lost");
-                }
+                } while (!done);                
+                    Console.WriteLine("{0} has lost", turn ? "Player 1" : "Player 2");
             }
         }
         public void PlayPVCTurn()
