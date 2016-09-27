@@ -94,7 +94,7 @@ namespace Nim
             int row, amount = 0;
             do
             {
-                //Player 1's turn
+                //Players' turn
                 do
                 {
                     displayBoard();
@@ -107,6 +107,7 @@ namespace Nim
                     }
                 } while (!validInput);
                 pieces[row-1] -= amount;
+                //checks if the game is over after each move
                 done = isOver();                
                 if (done)
                 {
@@ -122,6 +123,10 @@ namespace Nim
                 changeTurn();
             } while (!done);
             startGame();
+        }
+        public void PlayPVCTurn()
+        {
+
         }
 
         public bool isOver()
