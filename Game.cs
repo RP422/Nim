@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 namespace Nim
 {
     public class Game
-    {   private bool turn;
+    {
+        private bool turn;
         private int[] pieces = new int[3];
         public Game()
         {
+            startGame();
+        }
+        public void startGame()
+        {
             InstantiateBoard();
-            performAction(Menu());            
-        }        
+            performAction(Menu());
+        }
         //Gets user's input and returns an integer
         public int Menu()
         {
@@ -24,7 +29,7 @@ namespace Nim
                 Console.WriteLine("Pick an option\n1:Player vs Player\n2:Player vs CPU\n3:CPU vs CPU\n4:Quit");
                 validInput = int.TryParse(Console.ReadLine(), out x);
             } while (!validInput || (x <= 0 || x > 4));
-            return x;            
+            return x;
         }
         //Performs the action based on parameter passed in
         public void performAction(int action)
@@ -48,7 +53,7 @@ namespace Nim
                 default:
                     break;
             }
-        }        
+        }
         //Get the number of CPU Games to be played
         //Returns an integer
         public int getNumCPUGames()
@@ -64,7 +69,7 @@ namespace Nim
         public void startPVPGame()
         {
             randomTurn();
-            PVPPrompt();
+            PlayPVPTurn();
         }
         public void startPVCGame()
         {
@@ -77,57 +82,75 @@ namespace Nim
         public void randomTurn()
         {
             Random r = new Random();
-            turn = (r.Next(0,11) % 2 == 0);
+            turn = (r.Next(0, 11) % 2 == 0);
         }
         public void changeTurn()
         {
             turn = !turn;
         }
-        public void PVPPrompt()
+        public void PlayPVPTurn()
         {
-            //Player 1 goes first
-            if(turn)
+            bool done, validInput;
+            int row, amount = 0;
+            do
             {
-                
-                do{
-                    displayBoard();
-                    Console.WriteLine("Player 1");
-                    string s = Console.ReadLine();
-                }while(true) ;
-            }
-            else
-            {
+                //Player 1's turn
                 do
                 {
                     displayBoard();
-                    Console.WriteLine("Player 2");
-                    string s = Console.ReadLine();
-                } while (true);
-            }
+                    Console.WriteLine("Player {0}, please pick a row", turn ? "1" : "2");
+                    validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
+                    if (validInput)
+                    {
+                        Console.WriteLine("Player {0}, please pick an amount", turn ? "1" : "2");
+                        validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row-1] && amount > 0);
+                    }
+                } while (!validInput);
+                pieces[row-1] -= amount;
+                done = isOver();                
+                if (done)
+                {
+                    if (turn)
+                    {
+                        Console.WriteLine("Player 1 has lost");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Player 2 has lost");
+                    }
+                }
+                changeTurn();
+            } while (!done);
+            startGame();
+        }
+
+        public bool isOver()
+        {
+            return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
         public void displayBoard()
         {
             Console.Write("1:");
-            for(int firstRow = 0; firstRow < pieces[0]; firstRow++)
+            for (int firstRow = 0; firstRow < pieces[0]; firstRow++)
             {
                 Console.Write(" X ");
             }
             Console.WriteLine();
-            
+
             Console.Write("2:");
             for (int secondRow = 0; secondRow < pieces[1]; secondRow++)
             {
                 Console.Write(" X ");
             }
             Console.WriteLine();
-            
+
             Console.Write("3:");
             for (int thirdRow = 0; thirdRow < pieces[2]; thirdRow++)
             {
                 Console.Write(" X ");
             }
             Console.WriteLine();
-            
+
         }
         private void InstantiateBoard()
         {
