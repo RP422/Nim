@@ -9,8 +9,6 @@ namespace Nim
     public class Program
     {
         private NimState[,,] states = new NimState[4, 6, 8];
-        
-
         private List<int[]> currentMoveHistory = new List<int[]>();
 
         public static void Main(string[] args)

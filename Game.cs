@@ -16,8 +16,12 @@ namespace Nim
         }
         public void startGame()
         {
-            InstantiateBoard();
-            performAction(Menu());
+            int quit;
+            do
+            {
+                InstantiateBoard();
+                quit = performAction(Menu());
+            } while (quit != 4);
         }
         //Gets user's input and returns an integer
         public int Menu()
@@ -32,26 +36,26 @@ namespace Nim
             return x;
         }
         //Performs the action based on parameter passed in
-        public void performAction(int action)
+        public int performAction(int action)
         {
             switch (action)
             {
                 //Start a PVP game
                 case 1:
                     startPVPGame();
-                    break;
+                    return action;
                 //Start a Player vs CPU game
                 case 2:
                     startPVCGame();
-                    break;
+                    return action;
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
                     startCVCGame(getNumCPUGames());
-                    break;
+                    return action;
                 //Quit the game
                 default:
-                    break;
+                    return 4;
             }
         }
         //Get the number of CPU Games to be played
@@ -90,43 +94,51 @@ namespace Nim
         }
         public void PlayPVPTurn()
         {
-            bool done, validInput;
-            int row, amount = 0;
+            bool done;            
             do
             {
                 //Players' turn
-                do
-                {
-                    displayBoard();
-                    Console.WriteLine("Player {0}, please pick a row", turn ? "1" : "2");
-                    validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
-                    if (validInput)
-                    {
-                        Console.WriteLine("Player {0}, please pick an amount", turn ? "1" : "2");
-                        validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row-1] && amount > 0);
-                    }
-                } while (!validInput);
-                pieces[row-1] -= amount;
+                string move = getPlayerMove(false);
+                pieces[int.Parse(move[0].ToString())-1] -= int.Parse(move[1].ToString());
                 //checks if the game is over after each move
-                done = isOver();                
-                if (done)
-                {
-                    if (turn)
-                    {
-                        Console.WriteLine("Player 1 has lost");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Player 2 has lost");
-                    }
-                }
-                changeTurn();
+                done = isOver();
+                if(!done) changeTurn();
             } while (!done);
-            startGame();
+            if (turn)
+            {
+                Console.WriteLine("Player 1 has lost");
+            }
+            else
+            {
+                Console.WriteLine("Player 2 has lost");
+            }
+            
         }
         public void PlayPVCTurn()
         {
-
+            bool done, validInput;
+            int row, amount;
+        }
+        //get the players' moves for a turn
+        public string getPlayerMove(bool isCPU)
+        {
+            string move = "";
+            bool validInput;
+            int row, amount = 0;
+            do
+            {
+                displayBoard();
+                Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2" );
+                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
+                if (validInput)
+                {
+                    Console.WriteLine("{0}, please pick an amount", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
+                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
+                }
+            } while (!validInput);
+            move += row;
+            move += amount;
+            return move;
         }
 
         public bool isOver()
