@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="NimState.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

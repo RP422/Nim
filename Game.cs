@@ -8,21 +8,55 @@ namespace Nim
 {
     public class Game
     {
-        private bool turn;
+        private NimState[,,] states = new NimState[4, 6, 8];
+        private List<int[]> currentMoveHistory = new List<int[]>();
+
         private int[] pieces = new int[3];
+        private bool turn;
+
+        public static void Main(string[] args)
+        {
+            Game g = new Game();
+        }
+
+        private void InitializeNimStates()
+        {
+            // Builds every NimState object for learning purposes throughout runtime
+            for (int x = 0; x < 4; x++)
+            {
+                for (int y = 0; y < 6; y++)
+                {
+                    for (int z = 0; z < 8; z++)
+                    {
+                        states[x, y, x] = new NimState();
+                    }
+                }
+            }
+        }
+        private void InstantiateBoard()
+        {
+            // Resets the board to its initial state
+            pieces[0] = 3;
+            pieces[1] = 5;
+            pieces[2] = 7;
+        }
+
         public Game()
         {
             startGame();
         }
         public void startGame()
         {
+
             int quit;
             do
             {
                 InstantiateBoard();
                 quit = performAction(Menu());
             } while (quit != 4);
+
         }
+
         //Gets user's input and returns an integer
         public int Menu()
         {
@@ -35,9 +69,14 @@ namespace Nim
             } while (!validInput || (x <= 0 || x > 4));
             return x;
         }
+
         //Performs the action based on parameter passed in
+
         public int performAction(int action)
         {
+         // Rename to StartGameType
+         // Rename the parameter to type; Change parameter type to an enum?
+
             switch (action)
             {
                 //Start a PVP game
@@ -58,6 +97,21 @@ namespace Nim
                     return 4;
             }
         }
+        
+        public void startPVPGame()
+        {
+            randomTurn();
+            PlayPVPTurn();
+        }
+        public void startPVCGame()
+        {
+            randomTurn();
+        }
+
+        public void startCVCGame(int numGames)
+        {
+            randomTurn();
+        }
         //Get the number of CPU Games to be played
         //Returns an integer
         public int getNumCPUGames()
@@ -70,31 +124,16 @@ namespace Nim
             } while (!valid || numGames <= 0);
             return numGames;
         }
-        public void startPVPGame()
-        {
-            randomTurn();
-            PlayPVPTurn();
-        }
-        public void startPVCGame()
-        {
-            randomTurn();
-        }
-        public void startCVCGame(int numGames)
-        {
-            randomTurn();
-        }
-        public void randomTurn()
+
+        public void randomTurn() // Rename to DecideFirstMove
         {
             Random r = new Random();
             turn = (r.Next(0, 11) % 2 == 0);
-        }
-        public void changeTurn()
-        {
-            turn = !turn;
-        }
-        public void PlayPVPTurn()
-        {
-            bool done;            
+        }       
+        public void PlayPVPTurn() // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
+        {                         // Use interface for a Player type object? Superclass/Subclass?
+            bool done, validInput;
+            int row, amount = 0;
             do
             {
                 //Players' turn
@@ -140,11 +179,16 @@ namespace Nim
             move += amount;
             return move;
         }
+        public void changeTurn()
+        {
+            turn = !turn;
+        }
 
-        public bool isOver()
+        public bool isOver()  // Rename to GameOver()?
         {
             return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
+
         public void displayBoard()
         {
             Console.Write("1:");
@@ -169,12 +213,6 @@ namespace Nim
             Console.WriteLine();
 
         }
-        private void InstantiateBoard()
-        {
-            // Resets the board to its initial state
-            pieces[0] = 3;
-            pieces[1] = 5;
-            pieces[2] = 7;
-        }
+        
     }
 }
