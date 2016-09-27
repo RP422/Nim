@@ -43,8 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CPUPlayer.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="HumanPlayer.cs" />
     <Compile Include="NimState.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
