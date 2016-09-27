@@ -8,9 +8,15 @@ namespace Nim
 {
     public class CPUPlayer : Player
     {
+        private static NimState[,,] nimStates;
         public override string GetMove()
         {
             throw new NotImplementedException();
+        }
+
+        public static void InitializeNimStates(NimState[,,] states)
+        {
+            nimStates = states;
         }
     }
 }
