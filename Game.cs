@@ -150,29 +150,29 @@ namespace Nim
                     Console.WriteLine("Invalid input");
                 }
             } while (!done);
-            Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
+            Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
         }
         //get the players' moves for a turn
-        public string getPlayerMove(bool isCPU)
-        {
-            string move = "";
-            bool validInput;
-            int row, amount = 0;
-            do
-            {
-                displayBoard();
-                Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
-                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
-                if (validInput)
-                {
-                    Console.WriteLine("{0}, please pick an amount", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
-                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
-                }
-            } while (!validInput);
-            move += row;
-            move += amount;
-            return move;
-        }
+        //public string getPlayerMove(bool isCPU)
+        //{
+        //    string move = "";
+        //    bool validInput;
+        //    int row, amount = 0;
+        //    do
+        //    {
+        //        displayBoard();
+        //        Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
+        //        validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
+        //        if (validInput)
+        //        {
+        //            Console.WriteLine("{0}, please pick an amount", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
+        //            validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
+        //        }
+        //    } while (!validInput);
+        //    move += row;
+        //    move += amount;
+        //    return move;
+        //}
         public void changeTurn()
         {
             turn = !turn;

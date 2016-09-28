@@ -32,5 +32,9 @@ namespace Nim
             move += amount;
             return move;
         }
+        public override string GetName()
+        {
+            return "Player " + name;
+        }
     }
 }

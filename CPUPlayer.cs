@@ -62,6 +62,11 @@ namespace Nim
             return move;
         }
 
+        public override string GetName()
+        {
+            return "Computer";
+        }
+
         public void LookForBestMove(int[] currentState)
         {
             for (int i = 0; i < 3; i++)
