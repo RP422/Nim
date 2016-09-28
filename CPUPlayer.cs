@@ -19,31 +19,41 @@ namespace Nim
         //Randomly generates a simple CPU move
         public override int[] GetMove()
         {
-            LookForBestMove(Game.pieces);
             int[] move = new int[2];
-            bool validInput;
-            int row, amount = 0;
-            Random r = new Random();
-            int[] moveState = bestmoves[r.Next(bestmoves.Count)];
-            Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
+            int[] moveState;
 
-            if (moveState[0] != Game.pieces[0])
+            int row, amount = 0;
+
+            Random r = new Random();
+
+            LookForBestMove(Game.pieces);
+
+            if(bestmoves.Count > 0)
             {
-                amount = Game.pieces[0] - moveState[0];
-                row = 1;
+                moveState = bestmoves[r.Next(bestmoves.Count)];
+                Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
+
+                if (moveState[0] != Game.pieces[0])
+                {
+                    amount = Game.pieces[0] - moveState[0];
+                    row = 1;
+                }
+                else if (moveState[1] != Game.pieces[1])
+                {
+                    amount = Game.pieces[1] - moveState[1];
+                    row = 2;
+                }
+                else
+                {
+                    amount = Game.pieces[2] - moveState[2];
+                    row = 3;
+                }
+                move[0] = row;
+                move[1] = amount;
+
+                bestmoves.Clear(); // We kinda forgot this line of code earlier. This is how we got piece replacement
             }
-            else if (moveState[1] != Game.pieces[1])
-            {
-                amount = Game.pieces[1] - moveState[1];
-                row = 2;
-            }
-            else
-            {
-                amount = Game.pieces[2] - moveState[2];
-                row = 3;
-            }
-            move[0] = row;
-            move[1] = amount;
+
             return move;
         }
 

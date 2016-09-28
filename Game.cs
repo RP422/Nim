@@ -122,14 +122,17 @@ namespace Nim
                 DisplayBoard();
 
                 int[] move = turn ? p1.GetMove() : p2.GetMove();
-                pieces[move[0] - 1] -= move[1];
-                currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
-
-                done = GameOver(); //Checks if the player that just moved lost
-
-                if (!done)
+                if (move[1] > 0)
                 {
-                    ChangeTurn();
+                    pieces[move[0] - 1] -= move[1];
+                    currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
+
+                    done = GameOver(); //Checks if the player that just moved lost
+
+                    if (!done)
+                    {
+                        ChangeTurn();
+                    }
                 }
             } while (!done);
 
