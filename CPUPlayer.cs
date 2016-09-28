@@ -17,31 +17,16 @@ namespace Nim
         }
 
         //Randomly generates a simple CPU move
-        public override string GetMove()
+        public override int[] GetMove()
         {
             LookForBestMove(Game.pieces);
-            string move = "";
+            int[] move = new int[2];
             bool validInput;
             int row, amount = 0;
             Random r = new Random();
             int[] moveState = bestmoves[r.Next(bestmoves.Count)];
             Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
-            //do
-            //{
-            //    row = r.Next(1, Game.pieces.Length + 1);
-            //    validInput = Game.pieces[row - 1] > 0;
-            //    if (validInput)
-            //    {
-            //        Console.WriteLine("There are {0} pieces on {1} left", Game.pieces[row - 1], row);
 
-            //    }
-            //} while (!validInput);
-            //do
-            //{
-            //    amount = r.Next(1, Game.pieces[row - 1]);
-            //    validInput = amount <= Game.pieces[row - 1] && amount > 0;
-            //} while (!validInput);
-            //Console.WriteLine("Computer is removing {0} pieces from row {1}", amount, row);
             if (moveState[0] != Game.pieces[0])
             {
                 amount = Game.pieces[0] - moveState[0];
@@ -57,8 +42,8 @@ namespace Nim
                 amount = Game.pieces[2] - moveState[2];
                 row = 3;
             }
-            move += row;
-            move += amount;
+            move[0] = row;
+            move[1] = amount;
             return move;
         }
 

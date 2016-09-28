@@ -13,9 +13,9 @@ namespace Nim
         {
             this.name = name;
         }
-        public override string GetMove()
+        public override int[] GetMove()
         {
-            string move = "";
+            int[] move = new int[2];
             bool validInput;
             int row, amount = 0;
             do
@@ -28,8 +28,8 @@ namespace Nim
                     validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= Game.pieces[row - 1] && amount > 0);
                 }
             } while (!validInput);
-            move += row;
-            move += amount;
+            move[0] = row;
+            move[1] = amount;
             return move;
         }
         public override string GetName()

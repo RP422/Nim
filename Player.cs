@@ -8,7 +8,7 @@ namespace Nim
 {
     public abstract class Player
     {
-        public abstract string GetMove();
+        public abstract int[] GetMove();
         public abstract string GetName();
     }
 }

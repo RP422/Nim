@@ -85,7 +85,8 @@ namespace Nim
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
-                    for (int x = 0; x < GetNumCPUGames(); x++)
+                    int gameCount = GetNumCPUGames();
+                    for (int x = 0; x < gameCount; x++)
                     {
                         PlayGame(new CPUPlayer(), new CPUPlayer());
                     }
@@ -119,18 +120,16 @@ namespace Nim
             do
             {
                 DisplayBoard();
-                string move = turn ? p1.GetMove() : p2.GetMove();
-                try
-                {
-                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
-                    currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
 
-                    done = GameOver(); //Checks if the player that just moved lost
-                    if (!done) ChangeTurn();
-                }
-                catch(FormatException e)
+                int[] move = turn ? p1.GetMove() : p2.GetMove();
+                pieces[move[0] - 1] -= move[1];
+                currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
+
+                done = GameOver(); //Checks if the player that just moved lost
+
+                if (!done)
                 {
-                    Console.WriteLine("Invalid input");
+                    ChangeTurn();
                 }
             } while (!done);
 
@@ -148,8 +147,34 @@ namespace Nim
 
         public void ReviewGame()
         {
+            int stateCountWin = currentMoveHistory.Count;
+            int stateCountLose = stateCountWin;
+
+            double temp;
+            int[] coordinates;
+
+            if (currentMoveHistory.Count % 2 == 1)
+            {
+                stateCountLose--;
+            }
+
+            temp = stateCountLose;
+            for(int x = currentMoveHistory.Count - 1; x >= 0; x -= 2)
+            {
+                coordinates = currentMoveHistory[x];
+                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
+                temp--;
+            }
+
+            temp = stateCountWin;
+            for (int x = currentMoveHistory.Count - 2; x >= 0; x -= 2)
+            {
+                coordinates = currentMoveHistory[x];
+                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
+                temp--;
+            }
+
             currentMoveHistory.Clear(); // This line should be the last one called in the method
-            throw new NotImplementedException();
         }
 
         public void DisplayBoard()
