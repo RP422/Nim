@@ -12,7 +12,6 @@ namespace Nim
         private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
         public static int[] pieces = new int[3];
         private bool turn;
-        private bool isAgainstCPU;
 
         public static void Main(string[] args)
         {
@@ -77,18 +76,19 @@ namespace Nim
             {
                 //Start a PVP game
                 case 1:
-                    isAgainstCPU = false;
-                    startPVPGame();                    
+                    startPVPGame();
                     return type;
                 //Start a Player vs CPU game
                 case 2:
-                    isAgainstCPU = true;
-                    startPVCGame();                    
+                    startPVCGame();
                     return type;
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
-                    startCVCGame(getNumCPUGames());
+                    for (int x = 0; x < getNumCPUGames(); x++)
+                    { 
+                        startCVCGame();
+                    }
                     return type;
                 //Quit the game
                 default:
@@ -99,17 +99,18 @@ namespace Nim
         public void startPVPGame()
         {
             DecideFirstMove();
-            PlayGame();
+            PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
         }
         public void startPVCGame()
         {
             DecideFirstMove();
-            PlayGame();
+            PlayGame(new HumanPlayer("1"), new CPUPlayer());
         }
 
-        public void startCVCGame(int numGames)
+        public void startCVCGame()
         {
             DecideFirstMove();
+            PlayGame(new CPUPlayer(), new CPUPlayer());
         }
         //Get the number of CPU Games to be played
         //Returns an integer
@@ -129,55 +130,27 @@ namespace Nim
             Random r = new Random();
             turn = (r.Next(0, 11) % 2 == 0);
         }
-        public void PlayGame() // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
-        {                         // Use interface for a Player type object? Superclass/Subclass?
+        public void PlayGame(Player p1, Player p2) // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
+        {                         
             bool done = false; // Setting the value so that the while statement doesn't yell at us
-            if (isAgainstCPU)
+            do
             {
-                HumanPlayer p1 = new HumanPlayer("1");
-                CPUPlayer p2 = new CPUPlayer();
-                do
+                displayBoard();
+                //Player's turn
+                string move = turn ? p1.GetMove() : p2.GetMove();
+                try
                 {
-                    displayBoard();
-                    //Player's turn
-                    string move = turn ? p1.GetMove() : p2.GetMove();
-                    try
-                    {
-                        pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
-                        //checks if the game is over after each move
-                        done = GameOver();
-                        if (!done) changeTurn();
-                    }
-                    catch(FormatException e)
-                    {
-                        Console.WriteLine("Invalid input");
-                    }
-                } while (!done);
-                Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
-            }
-            else
-            {
-                HumanPlayer p1 = new HumanPlayer("1");
-                HumanPlayer p2 = new HumanPlayer("2");
-                do
-                {
-                    displayBoard();
-                    //Players' turn
-                    string move = turn ? p1.GetMove() : p2.GetMove();
-                    try
-                    {
-                        pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
                     //checks if the game is over after each move
                     done = GameOver();
                     if (!done) changeTurn();
-                    }
-                    catch (FormatException e)
-                    {
-                        Console.WriteLine("Invalid input");
-                    }
-                } while (!done);                
-                    Console.WriteLine("{0} has lost", turn ? "Player 1" : "Player 2");
-            }
+                }
+                catch(FormatException e)
+                {
+                    Console.WriteLine("Invalid input");
+                }
+            } while (!done);
+            Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
         }
         //get the players' moves for a turn
         public string getPlayerMove(bool isCPU)
