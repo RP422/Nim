@@ -15,6 +15,7 @@ namespace Nim
 
         public static void Main(string[] args)
         {
+            InitializeNimStates();
             Game g = new Game();
         }
 
@@ -32,7 +33,7 @@ namespace Nim
                 }
             }
         }
-        private void InstantiateBoard()
+        private static void ResetBoard()
         {
             // Resets the board to its initial state
             pieces[0] = 3;
@@ -42,7 +43,6 @@ namespace Nim
 
         public Game()
         {
-            InitializeNimStates();
             CPUPlayer.RegisterNimStates(states);
             startGame();
         }
@@ -51,7 +51,7 @@ namespace Nim
             int quit;
             do
             {
-                InstantiateBoard();
+                ResetBoard();
                 quit = startGameType(Menu());
             } while (quit != 4);
 
@@ -72,45 +72,29 @@ namespace Nim
         //Performs the action based on parameter passed in
         public int startGameType(int type)
         {
+            DecideFirstMove();
             switch (type)
             {
                 //Start a PVP game
                 case 1:
-                    startPVPGame();
+                    PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
                     return type;
                 //Start a Player vs CPU game
                 case 2:
-                    startPVCGame();
+                    PlayGame(new HumanPlayer("1"), new CPUPlayer());
                     return type;
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
                     for (int x = 0; x < getNumCPUGames(); x++)
-                    { 
-                        startCVCGame();
+                    {
+                        PlayGame(new CPUPlayer(), new CPUPlayer());
                     }
                     return type;
                 //Quit the game
                 default:
                     return 4;
             }
-        }
-
-        public void startPVPGame()
-        {
-            DecideFirstMove();
-            PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
-        }
-        public void startPVCGame()
-        {
-            DecideFirstMove();
-            PlayGame(new HumanPlayer("1"), new CPUPlayer());
-        }
-
-        public void startCVCGame()
-        {
-            DecideFirstMove();
-            PlayGame(new CPUPlayer(), new CPUPlayer());
         }
         //Get the number of CPU Games to be played
         //Returns an integer
@@ -125,12 +109,12 @@ namespace Nim
             return numGames;
         }
 
-        public void DecideFirstMove() // Rename to DecideFirstMove
+        public void DecideFirstMove()
         {
             Random r = new Random();
-            turn = (r.Next(0, 11) % 2 == 0);
+            turn = r.Next(2) == 0;
         }
-        public void PlayGame(Player p1, Player p2) // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
+        public void PlayGame(Player p1, Player p2)
         {                         
             bool done = false; // Setting the value so that the while statement doesn't yell at us
             do
@@ -141,8 +125,7 @@ namespace Nim
                 try
                 {
                     pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
-                    //checks if the game is over after each move
-                    done = GameOver();
+                    done = GameOver(); //Checks if the player that just moved lost
                     if (!done) changeTurn();
                 }
                 catch(FormatException e)
@@ -152,33 +135,12 @@ namespace Nim
             } while (!done);
             Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
         }
-        //get the players' moves for a turn
-        public string getPlayerMove(bool isCPU)
-        {
-            string move = "";
-            bool validInput;
-            int row, amount = 0;
-            do
-            {
-                displayBoard();
-                Console.WriteLine("{0}, please pick a row", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
-                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
-                if (validInput)
-                {
-                    Console.WriteLine("{0}, please pick an amount", isCPU ? "Player 1" : turn ? "Player 1" : "Player 2");
-                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
-                }
-            } while (!validInput);
-            move += row;
-            move += amount;
-            return move;
-        }
         public void changeTurn()
         {
             turn = !turn;
         }
 
-        public bool GameOver()  // Rename to GameOver()?
+        public bool GameOver()
         {
             return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
