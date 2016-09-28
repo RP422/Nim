@@ -72,10 +72,15 @@ namespace Nim
                     temp[i]--;
                     BetterMove(temp);
                 }
-                //if(currentState[0] + currentState[1] + currentState[2] == 1) 
-                //{
-                //making sure that if it has to move it will
-                //}
+                if (currentState[0] + currentState[1] + currentState[2] == 1)
+                {
+                    if(temp[i] > 0)
+                    {
+                        temp[i]--;
+                        BetterMove(temp);
+                    }
+                    //making sure that if it has to move it will
+                }
             }
         }
 
