@@ -17,7 +17,6 @@ namespace Nim
         public static void Main(string[] args)
         {
             Game g = new Game();
-            CPUPlayer.InitializeNimStates(states);
         }
 
         private void InitializeNimStates()
@@ -44,6 +43,8 @@ namespace Nim
 
         public Game()
         {
+            InitializeNimStates();
+            CPUPlayer.InitializeNimStates(states);
             startGame();
         }
         public void startGame()
