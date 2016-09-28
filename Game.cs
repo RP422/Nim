@@ -44,15 +44,15 @@ namespace Nim
         public Game()
         {
             CPUPlayer.RegisterNimStates(states);
-            startGame();
+            StartGame();
         }
-        public void startGame()
+        public void StartGame()
         {
             int quit;
             do
             {
                 ResetBoard();
-                quit = startGameType(Menu());
+                quit = StartGameType(Menu());
             } while (quit != 4);
         }
 
@@ -69,7 +69,7 @@ namespace Nim
             return x;
         }
         //Performs the action based on parameter passed in
-        public int startGameType(int type)
+        public int StartGameType(int type)
         {
             DecideFirstMove();
             switch (type)
@@ -85,7 +85,7 @@ namespace Nim
                 //Start a CPU vs CPU Game
                 //Ask how many games to play
                 case 3:
-                    for (int x = 0; x < getNumCPUGames(); x++)
+                    for (int x = 0; x < GetNumCPUGames(); x++)
                     {
                         PlayGame(new CPUPlayer(), new CPUPlayer());
                     }
@@ -97,7 +97,7 @@ namespace Nim
         }
         //Get the number of CPU Games to be played
         //Returns an integer
-        public int getNumCPUGames()
+        public int GetNumCPUGames()
         {
             int numGames; bool valid;
             do
@@ -118,33 +118,41 @@ namespace Nim
             bool done = false;
             do
             {
-                displayBoard();
+                DisplayBoard();
                 string move = turn ? p1.GetMove() : p2.GetMove();
                 try
                 {
                     pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                    currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
+
                     done = GameOver(); //Checks if the player that just moved lost
-                    if (!done) changeTurn();
+                    if (!done) ChangeTurn();
                 }
                 catch(FormatException e)
                 {
                     Console.WriteLine("Invalid input");
                 }
             } while (!done);
-            Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
-        }
 
-        public void changeTurn()
+            Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
+            ReviewGame();
+        }
+        public void ChangeTurn()
         {
             turn = !turn;
         }
-
         public bool GameOver()
         {
             return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
 
-        public void displayBoard()
+        public void ReviewGame()
+        {
+            currentMoveHistory.Clear(); // This line should be the last one called in the method
+            throw new NotImplementedException();
+        }
+
+        public void DisplayBoard()
         {
             Console.Write("1:");
             for (int firstRow = 0; firstRow < pieces[0]; firstRow++)
