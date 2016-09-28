@@ -9,5 +9,6 @@ namespace Nim
     public abstract class Player
     {
         public abstract string GetMove();
+        public abstract string GetName();
     }
 }

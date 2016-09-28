@@ -54,7 +54,6 @@ namespace Nim
                 ResetBoard();
                 quit = startGameType(Menu());
             } while (quit != 4);
-
         }
 
         //Gets user's input and returns an integer
@@ -116,11 +115,10 @@ namespace Nim
         }
         public void PlayGame(Player p1, Player p2)
         {                         
-            bool done = false; // Setting the value so that the while statement doesn't yell at us
+            bool done = false;
             do
             {
                 displayBoard();
-                //Player's turn
                 string move = turn ? p1.GetMove() : p2.GetMove();
                 try
                 {
@@ -133,8 +131,9 @@ namespace Nim
                     Console.WriteLine("Invalid input");
                 }
             } while (!done);
-            Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
+            Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
         }
+
         public void changeTurn()
         {
             turn = !turn;
