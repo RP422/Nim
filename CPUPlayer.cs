@@ -67,11 +67,15 @@ namespace Nim
             for (int i = 0; i < 3; i++)
             {
             int[] temp = (int[])currentState.Clone();
-                while (temp[i] > 0)
+                while (temp[i] > 0 && temp[0] + temp[1] + temp[2] > 1)// the added boolean makes sure it will try to go for the win
                 {
                     temp[i]--;
                     BetterMove(temp);
                 }
+                //if(currentState[0] + currentState[1] + currentState[2] == 1) 
+                //{
+                //making sure that if it has to move it will
+                //}
             }
         }
 
