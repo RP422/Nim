@@ -19,7 +19,7 @@ namespace Nim
             Game g = new Game();
         }
 
-        private void InitializeNimStates()
+        private static void InitializeNimStates()
         {
             // Builds every NimState object for learning purposes throughout runtime
             for (int x = 0; x < 4; x++)
@@ -28,7 +28,7 @@ namespace Nim
                 {
                     for (int z = 0; z < 8; z++)
                     {
-                        states[x, y, x] = new NimState();
+                        states[x, y, z] = new NimState(); // So, uh, funny story. This line of code once read [x, y, x] instead of [x, y, z]
                     }
                 }
             }
@@ -44,7 +44,7 @@ namespace Nim
         public Game()
         {
             InitializeNimStates();
-            CPUPlayer.InitializeNimStates(states);
+            CPUPlayer.RegisterNimStates(states);
             startGame();
         }
         public void startGame()
@@ -131,7 +131,7 @@ namespace Nim
         }
         public void PlayGame() // Change this block to use 3 methods: Player turn, CPU turn, and a turn change
         {                         // Use interface for a Player type object? Superclass/Subclass?
-            bool done;
+            bool done = false; // Setting the value so that the while statement doesn't yell at us
             if (isAgainstCPU)
             {
                 HumanPlayer p1 = new HumanPlayer("1");
@@ -141,10 +141,17 @@ namespace Nim
                     displayBoard();
                     //Player's turn
                     string move = turn ? p1.GetMove() : p2.GetMove();
-                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
-                    //checks if the game is over after each move
-                    done = GameOver();
-                    if (!done) changeTurn();
+                    try
+                    {
+                        pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                        //checks if the game is over after each move
+                        done = GameOver();
+                        if (!done) changeTurn();
+                    }
+                    catch(FormatException e)
+                    {
+                        Console.WriteLine("Invalid input");
+                    }
                 } while (!done);
                 Console.WriteLine("{0} has lost", turn ? "Player 1" : "Computer");
             }
@@ -157,20 +164,20 @@ namespace Nim
                     displayBoard();
                     //Players' turn
                     string move = turn ? p1.GetMove() : p2.GetMove();
-                    pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
+                    try
+                    {
+                        pieces[int.Parse(move[0].ToString()) - 1] -= int.Parse(move[1].ToString());
                     //checks if the game is over after each move
                     done = GameOver();
                     if (!done) changeTurn();
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.WriteLine("Invalid input");
+                    }
                 } while (!done);                
                     Console.WriteLine("{0} has lost", turn ? "Player 1" : "Player 2");
             }
-        }
-        public void PlayPVCTurn()
-        {
-            bool done, validInput;
-            int row, amount;
-
-            throw new NotImplementedException();
         }
         //get the players' moves for a turn
         public string getPlayerMove(bool isCPU)
@@ -225,8 +232,6 @@ namespace Nim
                 Console.Write(" X ");
             }
             Console.WriteLine();
-
         }
-
     }
 }

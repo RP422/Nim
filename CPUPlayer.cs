@@ -8,10 +8,15 @@ namespace Nim
 {
     public class CPUPlayer : Player
     {
-        List<int[]> bestmoves = new List<int[]>();
+        private static List<int[]> bestmoves = new List<int[]>();
         private static NimState[,,] nimStates;
-        //Randomly generates a simple CPU move
+        
+        public static void RegisterNimStates(NimState[,,] states)
+        {
+            nimStates = states;
+        }
 
+        //Randomly generates a simple CPU move
         public override string GetMove()
         {
             LookForBestMove(Game.pieces);
@@ -57,16 +62,11 @@ namespace Nim
             return move;
         }
 
-        public static void InitializeNimStates(NimState[,,] states)
-        {
-            nimStates = states;
-        }
-
         public void LookForBestMove(int[] currentState)
         {
             for (int i = 0; i < 3; i++)
             {
-            int[] temp = currentState;
+            int[] temp = (int[])currentState.Clone();
                 while (temp[i] > 0)
                 {
                     temp[i]--;
@@ -77,11 +77,7 @@ namespace Nim
 
         private void BetterMove(int[] temp)
         {
-            if (temp[0] == 0 && temp[1] == 0 && temp[2] == 0)
-            {
-
-            }
-            else if (bestmoves.Count > 0 && nimStates[temp[0], temp[1], temp[2]] != null)
+            if (bestmoves.Count > 0)
             {
                 int[] storedBestMove = bestmoves[0];
                 double movesAverage = nimStates[temp[0], temp[1], temp[2]].averageState;
