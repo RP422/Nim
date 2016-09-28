@@ -14,8 +14,7 @@ namespace Nim
 
         public override string GetMove()
         {
-            LookForBestMove(currentState);
-            throw new NotImplementedException();
+            LookForBestMove(Game.pieces);
             string move = "";
             bool validInput;
             int row, amount = 0;
