@@ -163,10 +163,12 @@ namespace Nim
             }
 
             temp = stateCountLose;
+            Console.WriteLine("Starting temp: {0}", temp);
             for(int x = currentMoveHistory.Count - 1; x >= 0; x -= 2)
             {
                 coordinates = currentMoveHistory[x];
-                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
+                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / -stateCountLose);
+                Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);             
                 temp--;
             }
 
@@ -175,12 +177,27 @@ namespace Nim
             {
                 coordinates = currentMoveHistory[x];
                 states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
+                Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);
                 temp--;
             }
+            DisplayAllStateValues();
+            CPUPlayer.RegisterNimStates(states);
 
             currentMoveHistory.Clear(); // This line should be the last one called in the method
         }
-
+        public void DisplayAllStateValues()
+        {
+            for(int x = 0; x <= 3; x++)
+            {
+                for(int y = 0; y <= 5; y++)
+                {
+                    for(int z = 0; z <= 7; z++)
+                    {
+                        Console.WriteLine("{0}, {1}, {2} has a value of {3}", x,y,z,states[x,y,z].averageState);
+                    }
+                }
+            }
+        }
         public void DisplayBoard()
         {
             Console.Write("1:");

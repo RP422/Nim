@@ -9,7 +9,7 @@ namespace Nim
     public class CPUPlayer : Player
     {
         private static List<int[]> bestmoves = new List<int[]>();
-        private static NimState[,,] nimStates;        
+        private static NimState[,,] nimStates;
         public static void RegisterNimStates(NimState[,,] states)
         {
             nimStates = states;
@@ -26,7 +26,7 @@ namespace Nim
 
             LookForBestMove(Game.pieces);
 
-            if(bestmoves.Count > 0)
+            if (bestmoves.Count > 0)
             {
                 moveState = bestmoves[r.Next(bestmoves.Count)];
                 Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
@@ -63,7 +63,7 @@ namespace Nim
         {
             for (int i = 0; i < 3; i++)
             {
-            int[] temp = (int[])currentState.Clone();
+                int[] temp = (int[])currentState.Clone();
                 while (temp[i] > 0 && temp[0] + temp[1] + temp[2] > 1)// the added boolean makes sure it will try to go for the win
                 {
                     temp[i]--;
@@ -71,7 +71,7 @@ namespace Nim
                 }
                 if (currentState[0] + currentState[1] + currentState[2] == 1)
                 {
-                    if(temp[i] > 0)
+                    if (temp[i] > 0)
                     {
                         temp[i]--;
                         BetterMove(temp);
