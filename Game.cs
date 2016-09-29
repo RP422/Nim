@@ -168,7 +168,7 @@ namespace Nim
             {
                 coordinates = currentMoveHistory[x];
                 states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / -stateCountLose);
-                Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);             
+                Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);       
                 temp--;
             }
 
@@ -178,6 +178,7 @@ namespace Nim
                 coordinates = currentMoveHistory[x];
                 states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
                 Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);
+
                 temp--;
             }
             DisplayAllStateValues();
