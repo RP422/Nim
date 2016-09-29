@@ -138,6 +138,7 @@ namespace Nim
 
             Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
             ReviewGame();
+            ResetBoard();
         }
         public void ChangeTurn()
         {
