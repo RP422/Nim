@@ -14,7 +14,7 @@ namespace Nim
         public NimState()
         {
             // Sets the initial state
-            averageState = 0;
+            averageState = 1;
             occuranceCount = 0;
         }
 
