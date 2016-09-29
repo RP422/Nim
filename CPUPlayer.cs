@@ -9,13 +9,11 @@ namespace Nim
     public class CPUPlayer : Player
     {
         private static List<int[]> bestmoves = new List<int[]>();
-        private static NimState[,,] nimStates;
-        
+        private static NimState[,,] nimStates;        
         public static void RegisterNimStates(NimState[,,] states)
         {
             nimStates = states;
         }
-
         //Randomly generates a simple CPU move
         public override int[] GetMove()
         {
@@ -50,7 +48,6 @@ namespace Nim
                 }
                 move[0] = row;
                 move[1] = amount;
-
                 bestmoves.Clear(); // We kinda forgot this line of code earlier. This is how we got piece replacement
             }
 
@@ -83,7 +80,6 @@ namespace Nim
                 }
             }
         }
-
         private void BetterMove(int[] temp)
         {
             if (bestmoves.Count > 0)
