@@ -15,7 +15,7 @@ namespace Nim
         {
             // Sets the initial state
             averageState = 1;
-            occuranceCount = 0;
+            occuranceCount = 1;
         }
 
         public void AppendAverage(double value)
