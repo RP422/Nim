@@ -166,7 +166,7 @@ namespace Nim
             for(int x = currentMoveHistory.Count - 1; x >= 0; x -= 2)
             {
                 coordinates = currentMoveHistory[x];
-                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
+                states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(-(temp / stateCountLose));
                 temp--;
             }
 
