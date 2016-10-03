@@ -48,8 +48,7 @@ namespace Nim
                 board.ResetBoard();
             } while (quit != 4);
         }
-
-        //Gets user's input and returns an integer
+        
         public int Menu()
         {
             int x;
@@ -61,22 +60,20 @@ namespace Nim
             } while (!validInput || (x <= 0 || x > 4));
             return x;
         }
-        //Performs the action based on parameter passed in
         public int StartGameType(int type)
         {
             DecideFirstMove();
             switch (type)
             {
-                //Start a PVP game
+                //PVP
                 case 1:
                     PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
                     return type;
-                //Start a Player vs CPU game
+                //Player vs CPU
                 case 2:
                     PlayGame(new HumanPlayer("1"), new CPUPlayer());
                     return type;
-                //Start a CPU vs CPU Game
-                //Ask how many games to play
+                //CPU vs CPU
                 case 3:
                     int gameCount = GetNumCPUGames();
                     for (int x = 0; x < gameCount; x++)
@@ -84,13 +81,11 @@ namespace Nim
                         PlayGame(new CPUPlayer(), new CPUPlayer());
                     }
                     return type;
-                //Quit the game
+                //Quit
                 default:
                     return 4;
             }
         }
-        //Get the number of CPU Games to be played
-        //Returns an integer
         public int GetNumCPUGames()
         {
             int numGames; bool valid;
@@ -121,7 +116,7 @@ namespace Nim
                 if (move[1] > 0)
                 {
                     board.RemovePieces((move[0] - 1), move[1]);
-                    currentMoveHistory.Add(board.GetBoardState()); // Adds the move into the move history
+                    currentMoveHistory.Add(board.GetBoardState());
 
                     done = GameOver(); //Checks if the player that just moved lost
 
@@ -148,7 +143,6 @@ namespace Nim
         {
             board.ResetBoard();
         }
-
 
         //public void ReviewGame()
         //{
