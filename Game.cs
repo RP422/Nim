@@ -13,9 +13,95 @@ namespace Nim
 
         public Game(NimState[,,] states)
         {
+            InitializeNimStates();
+            Game g = new Game();
+
+        }
+
+        private static void InitializeNimStates()
+        {
+            // Builds every NimState object for learning purposes throughout runtime
+            for (int x = 0; x < 4; x++)
+            {
+                for (int y = 0; y < 6; y++)
+                {
+                    for (int z = 0; z < 8; z++)
+                    {
+                        states[x, y, z] = new NimState(); // So, uh, funny story. This line of code once read [x, y, x] instead of [x, y, z]
+                    }
+                }
+            }
+        }
+
+        public Game()
+        {
             CPUPlayer.RegisterNimStates(states);
         }
-        
+        public void StartGame()
+        {
+            int quit;
+            do
+            {
+                quit = StartGameType(Menu());
+                GameReviewer reviewer = new GameReviewer(currentMoveHistory, states);
+                reviewer.ReviewGame();
+                board.ResetBoard();
+            } while (quit != 4);
+        }
+
+        //Gets user's input and returns an integer
+        public int Menu()
+        {
+            int x;
+            bool validInput;
+            do
+            {
+                Console.WriteLine("Pick an option\n1:Player vs Player\n2:Player vs CPU\n3:CPU vs CPU\n4:Quit");
+                validInput = int.TryParse(Console.ReadLine(), out x);
+            } while (!validInput || (x <= 0 || x > 4));
+            return x;
+        }
+        //Performs the action based on parameter passed in
+        public int StartGameType(int type)
+        {
+            DecideFirstMove();
+            switch (type)
+            {
+                //Start a PVP game
+                case 1:
+                    PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
+                    return type;
+                //Start a Player vs CPU game
+                case 2:
+                    PlayGame(new HumanPlayer("1"), new CPUPlayer());
+                    return type;
+                //Start a CPU vs CPU Game
+                //Ask how many games to play
+                case 3:
+                    int gameCount = GetNumCPUGames();
+                    for (int x = 0; x < gameCount; x++)
+                    {
+                        PlayGame(new CPUPlayer(), new CPUPlayer());
+                    }
+                    return type;
+                //Quit the game
+                default:
+                    return 4;
+            }
+        }
+        //Get the number of CPU Games to be played
+        //Returns an integer
+        public int GetNumCPUGames()
+        {
+            int numGames; bool valid;
+            do
+            {
+                Console.WriteLine("How many games would you like the CPU to play against itself");
+                valid = int.TryParse(Console.ReadLine(), out numGames);
+            } while (!valid || numGames <= 0);
+            return numGames;
+        }
+
         public void DecideFirstMove()
         {
             Random r = new Random();
@@ -23,7 +109,7 @@ namespace Nim
         }
 
         public void PlayGame(Player p1, Player p2)
-        {                         
+        {
             bool done = false;
             do
             {
@@ -92,7 +178,7 @@ namespace Nim
 
         //        states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
         //        Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);
-                
+
         //        temp--;
         //    }
         //    DisplayAllStateValues();

@@ -19,15 +19,13 @@ namespace Nim
         {
             int stateCountWin = currentMoveHistory.Count;
             int stateCountLose = stateCountWin;
-
-            double temp;
-            int[] coordinates;
-
             if (currentMoveHistory.Count % 2 == 1)
             {
                 stateCountWin--;
             }
 
+            int[] coordinates;
+            double temp;
             temp = stateCountLose;
             for (int x = currentMoveHistory.Count - 1; x >= 0; x -= 2)
             {
@@ -43,7 +41,6 @@ namespace Nim
                 states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountWin);
                 temp--;
             }
-            temp = currentMoveHistory.Count;
 
             CPUPlayer.RegisterNimStates(states);
 
