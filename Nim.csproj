@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.cs" />
     <Compile Include="CPUPlayer.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameReviewer.cs" />
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="NimState.cs" />
     <Compile Include="Player.cs" />
