@@ -8,14 +8,15 @@ namespace Nim
 {
     class GameReviewer
     {
-        List<int[]> currentMoveHistory = new List<int[]>();
-        NimState[,,] states = new NimState[4, 6, 8];
-        public GameReviewer(List<int[]> currentMoveHistory, NimState[,,] states)
+
+        private static NimState[,,] states;
+
+        public static void RegisterNimStates(NimState[,,] existingReference)
         {
-            this.currentMoveHistory = currentMoveHistory;
-            this.states = states;
+            existingReference = states;
         }
-        public void ReviewGame()
+
+        public static void ReviewGame(List<int[]> currentMoveHistory)
         {
             int stateCountWin = currentMoveHistory.Count;
             int stateCountLose = stateCountWin;
@@ -44,7 +45,7 @@ namespace Nim
 
             CPUPlayer.RegisterNimStates(states);
 
-            currentMoveHistory.Clear(); // This line should be the last one called in the method
+            currentMoveHistory.Clear();
         }
     }
 }

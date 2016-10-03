@@ -8,6 +8,9 @@ namespace Nim
 {
     public class Game
     {
+        private static NimState[,,] states = new NimState[4, 6, 8];
+        
+
         private bool turn;
         Board board = new Board();
 
@@ -15,19 +18,18 @@ namespace Nim
         {
             InitializeNimStates();
             Game g = new Game();
-
+            GameReviewer.RegisterNimStates(states);
         }
 
         private static void InitializeNimStates()
         {
-            // Builds every NimState object for learning purposes throughout runtime
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 6; y++)
                 {
                     for (int z = 0; z < 8; z++)
                     {
-                        states[x, y, z] = new NimState(); // So, uh, funny story. This line of code once read [x, y, x] instead of [x, y, z]
+                        states[x, y, z] = new NimState();
                     }
                 }
             }
@@ -43,8 +45,6 @@ namespace Nim
             do
             {
                 quit = StartGameType(Menu());
-                GameReviewer reviewer = new GameReviewer(currentMoveHistory, states);
-                reviewer.ReviewGame();
                 board.ResetBoard();
             } while (quit != 4);
         }
@@ -110,7 +110,9 @@ namespace Nim
 
         public void PlayGame(Player p1, Player p2)
         {
+            List<int[]> currentMoveHistory = new List<int[]>();
             bool done = false;
+
             do
             {
                 board.DisplayBoard();
@@ -131,7 +133,7 @@ namespace Nim
             } while (!done);
 
             Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
-            ReviewGame();
+            GameReviewer.ReviewGame(currentMoveHistory);
         }
         public void ChangeTurn()
         {

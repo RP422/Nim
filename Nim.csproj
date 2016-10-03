@@ -46,16 +46,8 @@
     <Compile Include="Board.cs" />
     <Compile Include="CPUPlayer.cs" />
     <Compile Include="Game.cs" />
-<<<<<<< HEAD
     <Compile Include="GameController.cs" />
     <Compile Include="GameReviewer.cs" />
-=======
-
-    <Compile Include="GameController.cs" />
-
-    <Compile Include="GameReviewer.cs" />
-
->>>>>>> 6f4eef01501a49bcaa5ca3a3ec2c5d37abd1f40f
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="NimState.cs" />
     <Compile Include="Player.cs" />

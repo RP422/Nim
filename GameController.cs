@@ -8,14 +8,13 @@ namespace Nim
 {
     class GameController
     {
-        private static NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
-        private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states.
-
-        private Game g = new Game(states);
+        private static NimState[,,] states = new NimState[4, 6, 8];
+        private Game g;
 
         public static void Main(string[] args)
         {
             InitializeNimStates();
+            Game g = new Game(states);
             GameController control = new GameController();
         }
 
