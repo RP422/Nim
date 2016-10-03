@@ -45,11 +45,8 @@
   <ItemGroup>
     <Compile Include="CPUPlayer.cs" />
     <Compile Include="Game.cs" />
-<<<<<<< HEAD
     <Compile Include="GameController.cs" />
-=======
     <Compile Include="GameReviewer.cs" />
->>>>>>> fd195f0e4f6cc073193064ba6d7b7c19ad6c048c
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="NimState.cs" />
     <Compile Include="Player.cs" />
