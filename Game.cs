@@ -10,8 +10,9 @@ namespace Nim
     {
         private static NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
         private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
-        public static int[] pieces = new int[3];
         private bool turn;
+        
+        Board board = new Board();
 
         public static void Main(string[] args)
         {
@@ -33,13 +34,6 @@ namespace Nim
                 }
             }
         }
-        private static void ResetBoard()
-        {
-            // Resets the board to its initial state
-            pieces[0] = 3;
-            pieces[1] = 5;
-            pieces[2] = 7;
-        }
 
         public Game()
         {
@@ -51,8 +45,8 @@ namespace Nim
             int quit;
             do
             {
-                ResetBoard();
                 quit = StartGameType(Menu());
+                board.ResetBoard();
             } while (quit != 4);
         }
 
@@ -119,13 +113,13 @@ namespace Nim
             bool done = false;
             do
             {
-                DisplayBoard();
+                board.DisplayBoard();
 
                 int[] move = turn ? p1.GetMove() : p2.GetMove();
                 if (move[1] > 0)
                 {
-                    pieces[move[0] - 1] -= move[1];
-                    currentMoveHistory.Add((int[])pieces.Clone()); // Adds the move into the move history
+                    board.RemovePieces((move[0] - 1), move[1]);
+                    currentMoveHistory.Add(board.GetBoardState()); // Adds the move into the move history
 
                     done = GameOver(); //Checks if the player that just moved lost
 
@@ -138,7 +132,6 @@ namespace Nim
 
             Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
             ReviewGame();
-            ResetBoard();
         }
         public void ChangeTurn()
         {
@@ -146,7 +139,7 @@ namespace Nim
         }
         public bool GameOver()
         {
-            return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
+            return board.GameOver();
         }
 
         //public void ReviewGame()
@@ -187,28 +180,5 @@ namespace Nim
 
         //    currentMoveHistory.Clear(); // This line should be the last one called in the method
         //}
-        public void DisplayBoard()
-        {
-            Console.Write("1:");
-            for (int firstRow = 0; firstRow < pieces[0]; firstRow++)
-            {
-                Console.Write(" X ");
-            }
-            Console.WriteLine();
-
-            Console.Write("2:");
-            for (int secondRow = 0; secondRow < pieces[1]; secondRow++)
-            {
-                Console.Write(" X ");
-            }
-            Console.WriteLine();
-
-            Console.Write("3:");
-            for (int thirdRow = 0; thirdRow < pieces[2]; thirdRow++)
-            {
-                Console.Write(" X ");
-            }
-            Console.WriteLine();
-        }
     }
 }
