@@ -11,13 +11,14 @@ namespace Nim
         private static NimState[,,] states = new NimState[4, 6, 8]; // The coordinates here correspond to the number of pieces in each row
         private List<int[]> currentMoveHistory = new List<int[]>(); // The int arrays should always be 3 in length. They are corrdinates sets for states
         private bool turn;
-        
+
         Board board = new Board();
 
         public static void Main(string[] args)
         {
             InitializeNimStates();
             Game g = new Game();
+
         }
 
         private static void InitializeNimStates()
@@ -46,6 +47,8 @@ namespace Nim
             do
             {
                 quit = StartGameType(Menu());
+                GameReviewer reviewer = new GameReviewer(currentMoveHistory, states);
+                reviewer.ReviewGame();
                 board.ResetBoard();
             } while (quit != 4);
         }
@@ -109,7 +112,7 @@ namespace Nim
             turn = r.Next(2) == 0;
         }
         public void PlayGame(Player p1, Player p2)
-        {                         
+        {
             bool done = false;
             do
             {
@@ -172,7 +175,7 @@ namespace Nim
 
         //        states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
         //        Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);
-                
+
         //        temp--;
         //    }
         //    DisplayAllStateValues();
