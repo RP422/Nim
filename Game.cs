@@ -113,7 +113,7 @@ namespace Nim
             bool done = false;
             do
             {
-                DisplayBoard();
+                board.DisplayBoard();
 
                 int[] move = turn ? p1.GetMove() : p2.GetMove();
                 if (move[1] > 0)

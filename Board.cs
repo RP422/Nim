@@ -17,7 +17,6 @@ namespace Nim
 
         public void ResetBoard()
         {
-            // Resets the board to its initial state
             pieces[0] = 3;
             pieces[1] = 5;
             pieces[2] = 7;
