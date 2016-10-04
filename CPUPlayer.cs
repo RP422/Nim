@@ -10,6 +10,14 @@ namespace Nim
     {
         private static List<int[]> bestmoves = new List<int[]>();
         private static NimState[,,] nimStates;
+
+        private Board board;
+
+        public CPUPlayer(Board board)
+        {
+            this.board = board;
+        }
+
         public static void RegisterNimStates(NimState[,,] states)
         {
             nimStates = states;
@@ -19,31 +27,32 @@ namespace Nim
         {
             int[] move = new int[2];
             int[] moveState;
+            int[] pieces = board.GetBoardState();
 
             int row, amount = 0;
 
             Random r = new Random();
 
-            LookForBestMove(Game.pieces);
+            LookForBestMove(pieces);
 
             if (bestmoves.Count > 0)
             {
                 moveState = bestmoves[r.Next(bestmoves.Count)];
                 Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
 
-                if (moveState[0] != Game.pieces[0])
+                if (moveState[0] != pieces[0])
                 {
-                    amount = Game.pieces[0] - moveState[0];
+                    amount = pieces[0] - moveState[0];
                     row = 1;
                 }
-                else if (moveState[1] != Game.pieces[1])
+                else if (moveState[1] != pieces[1])
                 {
-                    amount = Game.pieces[1] - moveState[1];
+                    amount = pieces[1] - moveState[1];
                     row = 2;
                 }
                 else
                 {
-                    amount = Game.pieces[2] - moveState[2];
+                    amount = pieces[2] - moveState[2];
                     row = 3;
                 }
                 move[0] = row;

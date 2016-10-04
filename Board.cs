@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nim
 {
-    class Board
+    public class Board
     {
         private int[] pieces = new int[3];
 

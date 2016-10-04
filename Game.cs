@@ -10,7 +10,6 @@ namespace Nim
     {
         private static NimState[,,] states = new NimState[4, 6, 8];
         
-
         private bool turn;
         Board board = new Board();
 
@@ -71,14 +70,14 @@ namespace Nim
                     return type;
                 //Player vs CPU
                 case 2:
-                    PlayGame(new HumanPlayer("1"), new CPUPlayer());
+                    PlayGame(new HumanPlayer("1"), new CPUPlayer(board));
                     return type;
                 //CPU vs CPU
                 case 3:
                     int gameCount = GetNumCPUGames();
                     for (int x = 0; x < gameCount; x++)
                     {
-                        PlayGame(new CPUPlayer(), new CPUPlayer());
+                        PlayGame(new CPUPlayer(board), new CPUPlayer(board));
                     }
                     return type;
                 //Quit
@@ -143,44 +142,5 @@ namespace Nim
         {
             board.ResetBoard();
         }
-
-        //public void ReviewGame()
-        //{
-        //    int stateCountWin = currentMoveHistory.Count;
-        //    int stateCountLose = stateCountWin;
-
-        //    double temp;
-        //    int[] coordinates;
-
-        //    if (currentMoveHistory.Count % 2 == 1)
-        //    {
-        //        stateCountWin--;
-        //    }
-
-        //    temp = stateCountLose;
-        //    Console.WriteLine("Starting temp: {0}", temp);
-        //    for(int x = currentMoveHistory.Count - 1; x >= 0; x -= 2)
-        //    {
-        //        coordinates = currentMoveHistory[x];
-        //        states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / -stateCountLose);
-        //        Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);       
-        //        temp--;
-        //    }
-
-        //    temp = stateCountWin;
-        //    for (int x = currentMoveHistory.Count - 2; x >= 0; x -= 2)
-        //    {
-        //        coordinates = currentMoveHistory[x];
-
-        //        states[coordinates[0], coordinates[1], coordinates[2]].AppendAverage(temp / stateCountLose);
-        //        Console.WriteLine("{0}, {1}, {2} has value of {3}", coordinates[0], coordinates[1], coordinates[2], states[coordinates[0], coordinates[1], coordinates[2]].averageState);
-
-        //        temp--;
-        //    }
-        //    DisplayAllStateValues();
-        //    CPUPlayer.RegisterNimStates(states);
-
-        //    currentMoveHistory.Clear(); // This line should be the last one called in the method
-        //}
     }
 }
