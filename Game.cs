@@ -38,63 +38,6 @@ namespace Nim
         {
             CPUPlayer.RegisterNimStates(states);
         }
-        public void StartGame()
-        {
-            int quit;
-            do
-            {
-                quit = StartGameType(Menu());
-                board.ResetBoard();
-            } while (quit != 4);
-        }
-        
-        public int Menu()
-        {
-            int x;
-            bool validInput;
-            do
-            {
-                Console.WriteLine("Pick an option\n1:Player vs Player\n2:Player vs CPU\n3:CPU vs CPU\n4:Quit");
-                validInput = int.TryParse(Console.ReadLine(), out x);
-            } while (!validInput || (x <= 0 || x > 4));
-            return x;
-        }
-        public int StartGameType(int type)
-        {
-            DecideFirstMove();
-            switch (type)
-            {
-                //PVP
-                case 1:
-                    PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
-                    return type;
-                //Player vs CPU
-                case 2:
-                    PlayGame(new HumanPlayer("1"), new CPUPlayer(board));
-                    return type;
-                //CPU vs CPU
-                case 3:
-                    int gameCount = GetNumCPUGames();
-                    for (int x = 0; x < gameCount; x++)
-                    {
-                        PlayGame(new CPUPlayer(board), new CPUPlayer(board));
-                    }
-                    return type;
-                //Quit
-                default:
-                    return 4;
-            }
-        }
-        public int GetNumCPUGames()
-        {
-            int numGames; bool valid;
-            do
-            {
-                Console.WriteLine("How many games would you like the CPU to play against itself");
-                valid = int.TryParse(Console.ReadLine(), out numGames);
-            } while (!valid || numGames <= 0);
-            return numGames;
-        }
 
         public void DecideFirstMove()
         {
@@ -117,7 +60,7 @@ namespace Nim
                     board.RemovePieces((move[0] - 1), move[1]);
                     currentMoveHistory.Add(board.GetBoardState());
 
-                    done = GameOver(); //Checks if the player that just moved lost
+                    done = GameOver();
 
                     if (!done)
                     {
@@ -128,6 +71,7 @@ namespace Nim
 
             Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
             GameReviewer.ReviewGame(currentMoveHistory);
+            board.ResetBoard();
         }
         public void ChangeTurn()
         {
@@ -137,10 +81,10 @@ namespace Nim
         {
             return board.GameOver();
         }
-
-        public void Reset()
+        
+        public Board GetBoard()
         {
-            board.ResetBoard();
+            return board;
         }
     }
 }

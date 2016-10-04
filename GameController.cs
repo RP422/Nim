@@ -43,7 +43,6 @@ namespace Nim
             do
             {
                 quit = StartGameType(Menu());
-                g.Reset();
             } while (quit != 4);
         }
         public int StartGameType(int type)
@@ -57,14 +56,14 @@ namespace Nim
                     return type;
                 //Player vs CPU game
                 case 2:
-                    g.PlayGame(new HumanPlayer("1"), new CPUPlayer());
+                    g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
                     return type;
                 //CPU vs CPU Game(s)
                 case 3:
                     int gameCount = GetNumCPUGames();
                     for (int x = 0; x < gameCount; x++)
                     {
-                        g.PlayGame(new CPUPlayer(), new CPUPlayer());
+                        g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
                     }
                     return type;
                 //Quit
