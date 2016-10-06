@@ -42,34 +42,29 @@ namespace Nim
             int quit;
             do
             {
-                quit = StartGameType(Menu());
+                quit = Menu();
+                g.DecideFirstMove();
+                switch (quit)
+                {
+                    //PVP game
+                    case 1:
+                        g.PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
+                        break;
+                    //Player vs CPU game
+                    case 2:
+                        g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
+                        break;
+                    //CPU vs CPU Game(s)
+                    case 3:
+                        int gameCount = GetNumCPUGames();
+                        for (int x = 0; x < gameCount; x++)
+                        {
+                            g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
+                        }
+                        break;
+                }
+
             } while (quit != 4);
-        }
-        public int StartGameType(int type)
-        {
-            g.DecideFirstMove();
-            switch (type)
-            {
-                //PVP game
-                case 1:
-                    g.PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
-                    return type;
-                //Player vs CPU game
-                case 2:
-                    g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
-                    return type;
-                //CPU vs CPU Game(s)
-                case 3:
-                    int gameCount = GetNumCPUGames();
-                    for (int x = 0; x < gameCount; x++)
-                    {
-                        g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
-                    }
-                    return type;
-                //Quit
-                default:
-                    return 4;
-            }
         }
         public int GetNumCPUGames()
         {
