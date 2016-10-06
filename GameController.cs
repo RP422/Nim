@@ -9,12 +9,11 @@ namespace Nim
     class GameController
     {
         private static NimState[,,] states = new NimState[4, 6, 8];
-        private Game g;
+        private Game[] games = { new PVPGame(), new PVCGame(), new CVCGame() };
 
         public static void Main(string[] args)
         {
             InitializeNimStates();
-            Game g = new Game(states);
             GameController control = new GameController();
         }
 
@@ -39,32 +38,23 @@ namespace Nim
 
         public void StartGame()
         {
-            int quit;
+            int choice;
+            int numGames;
             do
             {
-                quit = Menu();
-                g.DecideFirstMove();
-                switch (quit)
-                {
-                    //PVP game
-                    case 1:
-                        g.PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
-                        break;
-                    //Player vs CPU game
-                    case 2:
-                        g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
-                        break;
-                    //CPU vs CPU Game(s)
-                    case 3:
-                        int gameCount = GetNumCPUGames();
-                        for (int x = 0; x < gameCount; x++)
-                        {
-                            g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
-                        }
-                        break;
-                }
+                choice = Menu();
+                numGames = games[choice].GetType().ToString().Equals("Nim.CVCGame") ? GetNumCPUGames() : 1;
+                //     That last statement was a bit weird looking.
+                //     Basically we're looking to see if the game chosen was an instance of CVCGame
+                //         and then using that boolean to decide if we want to call GetNumCPUGames()
 
-            } while (quit != 4);
+                games[choice].DecideFirstMove();
+
+                for (int x = 0; x < numGames; x++)
+                {
+                    games[choice].PlayGame();
+                }
+            } while (choice != 4);
         }
         public int GetNumCPUGames()
         {
