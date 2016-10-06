@@ -54,7 +54,7 @@ namespace Nim
                 {
                     games[choice].PlayGame();
                 }
-            } while (choice != 4);
+            } while (choice < gameArray.Length);
         }
         public int GetNumCPUGames()
         {
