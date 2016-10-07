@@ -14,6 +14,7 @@ namespace Nim
         public static void Main(string[] args)
         {
             InitializeNimStates();
+            Game g = new Game(states);
             GameController control = new GameController();
         }
 
@@ -39,16 +40,31 @@ namespace Nim
         public void StartGame()
         {
             int quit;
-            Game[] gameArray = { new PVPGame(), new PVCGame(), new CVCGame() };
             do
             {
                 quit = Menu();
-                if (quit-1 > gameArray.Length)
+                g.DecideFirstMove();
+                switch (quit)
                 {
-                    gameArray[quit-1].DecideFirstMove();
-                    gameArray[quit-1].PlayGame();
+                    //PVP game
+                    case 1:
+                        g.PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
+                        break;
+                    //Player vs CPU game
+                    case 2:
+                        g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
+                        break;
+                    //CPU vs CPU Game(s)
+                    case 3:
+                        int gameCount = GetNumCPUGames();
+                        for (int x = 0; x < gameCount; x++)
+                        {
+                            g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
+                        }
+                        break;
                 }
-            } while (quit-1 < gameArray.Length);
+
+            } while (quit != 4);
         }
         public int GetNumCPUGames()
         {

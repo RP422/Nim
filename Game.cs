@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace Nim
 {
-    public abstract class Game
+    public class Game
     {
         private static NimState[,,] states = new NimState[4, 6, 8];
-        protected Player p1, p2;
+        
         private bool turn;
         Board board = new Board();
 
         public Game(NimState[,,] states)
         {
             InitializeNimStates();
+            Game g = new Game();
             GameReviewer.RegisterNimStates(states);
         }
 
@@ -44,7 +45,7 @@ namespace Nim
             turn = r.Next(2) == 0;
         }
 
-        public void PlayGame()
+        public void PlayGame(Player p1, Player p2)
         {
             List<int[]> currentMoveHistory = new List<int[]>();
             bool done = false;
@@ -85,7 +86,5 @@ namespace Nim
         {
             return board;
         }
-        public abstract void CreatePlayers();
-        public abstract string GetPrompt();
     }
 }
