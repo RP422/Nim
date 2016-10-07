@@ -40,11 +40,20 @@ namespace Nim
         {
             int choice;
             int numGames;
+
+            string[] options = new string[games.GetLength(0) + 1]; // That +1 is for the quit option
+            options[games.GetLength(0) - 1] = "Quit";
+
+            for (int x = 0; x < games.GetLength(0); x++)
+            {
+                options[x] = games[x].GetPrompt();
+            }
+
             do
             {
-                choice = Menu();
+                choice = Menu(options);
                 numGames = games[choice].GetType().ToString().Equals("Nim.CVCGame") ? GetNumCPUGames() : 1;
-                //     That last statement was a bit weird looking.
+                //     I admit, that statement is a bit weird looking with so many method calls
                 //     Basically we're looking to see if the game chosen was an instance of CVCGame
                 //         and then using that boolean to decide if we want to call GetNumCPUGames()
 
@@ -54,7 +63,7 @@ namespace Nim
                 {
                     games[choice].PlayGame();
                 }
-            } while (choice < games.Length);
+            } while (choice < games.GetLength(0));
         }
         public int GetNumCPUGames()
         {
@@ -67,16 +76,22 @@ namespace Nim
             return numGames;
         }
 
-        public int Menu()
+        public int Menu(string[] options)
         {
-            int x;
+            // Returns the index of the selected option
+            int choice;
             bool validInput;
             do
             {
-                Console.WriteLine("Pick an option\n1:Player vs Player\n2:Player vs CPU\n3:CPU vs CPU\n4:Quit");
-                validInput = int.TryParse(Console.ReadLine(), out x);
-            } while (!validInput || (x <= 0 || x > 4));
-            return x;
+                Console.WriteLine("Pick an option:");
+                for (int x = 0; x < options.GetLength(0); x++)
+                {
+                    Console.WriteLine((x + 1) + " - " + options[x]);
+                }
+                validInput = int.TryParse(Console.ReadLine(), out choice);
+            } while (!validInput || (choice < 0 || choice >= options.GetLength(0)));
+
+            return choice - 1;
         }
     }
 }

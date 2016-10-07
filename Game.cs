@@ -8,10 +8,13 @@ namespace Nim
 {
     public abstract class Game
     {
-        private static NimState[,,] states = new NimState[4, 6, 8];
         protected Player p1, p2;
+        private static NimState[,,] states = new NimState[4, 6, 8];
         private bool turn;
         Board board = new Board();
+
+        public abstract void CreatePlayers();
+        public abstract string GetPrompt();
 
         public Game(NimState[,,] states)
         {
@@ -85,7 +88,5 @@ namespace Nim
         {
             return board;
         }
-        public abstract void CreatePlayers();
-        public abstract string GetPrompt();
     }
 }
