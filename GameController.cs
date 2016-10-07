@@ -9,12 +9,11 @@ namespace Nim
     class GameController
     {
         private static NimState[,,] states = new NimState[4, 6, 8];
-        private Game g;
+        private Game[] games = { new PVPGame(), new PVCGame(), new CVCGame() };
 
         public static void Main(string[] args)
         {
             InitializeNimStates();
-            Game g = new Game(states);
             GameController control = new GameController();
         }
 
@@ -39,32 +38,32 @@ namespace Nim
 
         public void StartGame()
         {
-            int quit;
+            int choice;
+            int numGames;
+
+            string[] options = new string[games.GetLength(0) + 1]; // That +1 is for the quit option
+            options[games.GetLength(0) - 1] = "Quit";
+
+            for (int x = 0; x < games.GetLength(0); x++)
+            {
+                options[x] = games[x].GetPrompt();
+            }
+
             do
             {
-                quit = Menu();
-                g.DecideFirstMove();
-                switch (quit)
-                {
-                    //PVP game
-                    case 1:
-                        g.PlayGame(new HumanPlayer("1"), new HumanPlayer("2"));
-                        break;
-                    //Player vs CPU game
-                    case 2:
-                        g.PlayGame(new HumanPlayer("1"), new CPUPlayer(g.GetBoard()));
-                        break;
-                    //CPU vs CPU Game(s)
-                    case 3:
-                        int gameCount = GetNumCPUGames();
-                        for (int x = 0; x < gameCount; x++)
-                        {
-                            g.PlayGame(new CPUPlayer(g.GetBoard()), new CPUPlayer(g.GetBoard()));
-                        }
-                        break;
-                }
+                choice = Menu(options);
+                numGames = games[choice].GetType().ToString().Equals("Nim.CVCGame") ? GetNumCPUGames() : 1;
+                //     I admit, that statement is a bit weird looking with so many method calls
+                //     Basically we're looking to see if the game chosen was an instance of CVCGame
+                //         and then using that boolean to decide if we want to call GetNumCPUGames()
 
-            } while (quit != 4);
+                games[choice].DecideFirstMove();
+
+                for (int x = 0; x < numGames; x++)
+                {
+                    games[choice].PlayGame();
+                }
+            } while (choice < games.GetLength(0));
         }
         public int GetNumCPUGames()
         {
@@ -77,16 +76,22 @@ namespace Nim
             return numGames;
         }
 
-        public int Menu()
+        public int Menu(string[] options)
         {
-            int x;
+            // Returns the index of the selected option
+            int choice;
             bool validInput;
             do
             {
-                Console.WriteLine("Pick an option\n1:Player vs Player\n2:Player vs CPU\n3:CPU vs CPU\n4:Quit");
-                validInput = int.TryParse(Console.ReadLine(), out x);
-            } while (!validInput || (x <= 0 || x > 4));
-            return x;
+                Console.WriteLine("Pick an option:");
+                for (int x = 0; x < options.GetLength(0); x++)
+                {
+                    Console.WriteLine((x + 1) + " - " + options[x]);
+                }
+                validInput = int.TryParse(Console.ReadLine(), out choice);
+            } while (!validInput || (choice < 0 || choice >= options.GetLength(0)));
+
+            return choice - 1;
         }
     }
 }
