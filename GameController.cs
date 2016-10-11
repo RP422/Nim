@@ -54,10 +54,7 @@ namespace Nim
             do
             {
                 choice = Menu(options);
-                numGames = isCVCGame(choice) ? GetNumCPUGames() : 1;
-                //     I admit, that statement is a bit weird looking with so many method calls
-                //     Basically we're looking to see if the game chosen was an instance of CVCGame
-                //         and then using that boolean to decide if we want to call GetNumCPUGames()
+                numGames = IsCVCGame(choice) ? GetNumCPUGames() : 1;
 
                 games[choice].DecideFirstMove();
 
@@ -67,7 +64,7 @@ namespace Nim
                 }
             } while (choice < games.GetLength(0));
         }
-        public bool isCVCGame(int choice)
+        public bool IsCVCGame(int choice)
         {
             return games[choice].GetType().ToString().Equals("Nim.CVCGame");
         }
