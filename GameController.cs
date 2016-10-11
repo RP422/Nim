@@ -36,6 +36,8 @@ namespace Nim
                     }
                 }
             }
+            CPUPlayer.RegisterNimStates(states);
+            GameReviewer.RegisterNimStates(states);
         }
 
         public void StartGame()

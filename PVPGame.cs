@@ -8,10 +8,14 @@ namespace Nim
 {
     class PVPGame : Game
     {
-        public override void CreatePlayers()
+
+        protected override Player CreatePlayerOne()
         {
-            p1 = new HumanPlayer("1");
-            p2 = new HumanPlayer("2");
+            return new HumanPlayer("1");
+        }
+        protected override Player CreatePlayerTwo()
+        {
+            return new HumanPlayer("2");
         }
 
         public override string GetPrompt()
