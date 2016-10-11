@@ -8,7 +8,7 @@ namespace Nim
 {
     public abstract class Game
     {
-        private static NimState[,,] states = new NimState[4, 6, 8];
+        private static NimState[,,] states = new NimState[GameController.FIRST_ROW_START, GameController.SECOND_ROW_START, GameController.THIRD_ROW_START];
         private bool turn;
         Board board = new Board();
 
