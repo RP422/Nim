@@ -8,10 +8,13 @@ namespace Nim
 {
     class PVCGame : Game
     {
-        public override void CreatePlayers()
+        protected override Player CreatePlayerOne()
         {
-            p1 = new HumanPlayer("1");
-            p2 = new CPUPlayer(GetBoard());
+            return new HumanPlayer("1");
+        }
+        protected override Player CreatePlayerTwo()
+        {
+            return new CPUPlayer(GetBoard());
         }
 
         public override string GetPrompt()

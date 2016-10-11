@@ -9,7 +9,9 @@ namespace Nim
     public class Board
     {
         private int[] pieces = new int[3];
-
+        public const int FIRST_ROW_LENGTH = 3;
+        public const int SECOND_ROW_LENGTH = 5;
+        public const int THIRD_ROW_LENGTH = 7;
         public Board()
         {
             ResetBoard();
@@ -17,9 +19,9 @@ namespace Nim
 
         public void ResetBoard()
         {
-            pieces[0] = 3;
-            pieces[1] = 5;
-            pieces[2] = 7;
+            pieces[0] = FIRST_ROW_LENGTH;
+            pieces[1] = SECOND_ROW_LENGTH;
+            pieces[2] = THIRD_ROW_LENGTH;
         }
 
         public int[] GetBoardState()

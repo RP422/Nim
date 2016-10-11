@@ -8,7 +8,10 @@ namespace Nim
 {
     class GameController
     {
-        private static NimState[,,] states = new NimState[4, 6, 8];
+        public const int FIRST_ROW_START = 4;
+        public const int SECOND_ROW_START = 6;
+        public const int THIRD_ROW_START = 8;
+        private static NimState[,,] states = new NimState[FIRST_ROW_START, SECOND_ROW_START, THIRD_ROW_START];
         private Game[] games = { new PVPGame(), new PVCGame(), new CVCGame() };
         public static void Main(string[] args)
         {
@@ -21,16 +24,18 @@ namespace Nim
         }
         private static void InitializeNimStates()
         {
-            for (int x = 0; x < 4; x++)
+            for (int x = 0; x < FIRST_ROW_START; x++)
             {
-                for (int y = 0; y < 6; y++)
+                for (int y = 0; y < SECOND_ROW_START; y++)
                 {
-                    for (int z = 0; z < 8; z++)
+                    for (int z = 0; z < THIRD_ROW_START; z++)
                     {
                         states[x, y, z] = new NimState();
                     }
                 }
             }
+            CPUPlayer.RegisterNimStates(states);
+            GameReviewer.RegisterNimStates(states);
         }
 
         public void StartGame()

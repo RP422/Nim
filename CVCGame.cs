@@ -8,10 +8,13 @@ namespace Nim
 {
     class CVCGame : Game
     {
-        public override void CreatePlayers()
+        protected override Player CreatePlayerOne()
         {
-            p1 = new CPUPlayer(GetBoard());
-            p2 = new CPUPlayer(GetBoard());
+            return new CPUPlayer(GetBoard());
+        }
+        protected override Player CreatePlayerTwo()
+        {
+            return new CPUPlayer(GetBoard());
         }
 
         public override string GetPrompt()
