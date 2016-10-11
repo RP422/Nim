@@ -8,28 +8,28 @@ namespace Nim
 {
     public class Board
     {
-        private int[] pieces = new int[3];
-        public const int FIRST_ROW_LENGTH = 3;
-        public const int SECOND_ROW_LENGTH = 5;
-        public const int THIRD_ROW_LENGTH = 7;
+        private static int[] pieces = new int[3];
+        public static const int FIRST_ROW_LENGTH = 3;
+        public static const int SECOND_ROW_LENGTH = 5;
+        public static const int THIRD_ROW_LENGTH = 7;
         public Board()
         {
             ResetBoard();
         }
 
-        public void ResetBoard()
+        public static void ResetBoard()
         {
             pieces[0] = FIRST_ROW_LENGTH;
             pieces[1] = SECOND_ROW_LENGTH;
             pieces[2] = THIRD_ROW_LENGTH;
         }
 
-        public int[] GetBoardState()
+        public static int[] GetBoardState()
         {
             return (int[])pieces.Clone();
         }
 
-        public void RemovePieces(int row, int numRemoved)
+        public static void RemovePieces(int row, int numRemoved)
         {
             if (numRemoved <= pieces[row])
             {
@@ -37,12 +37,12 @@ namespace Nim
             }
         }
 
-        public bool GameOver()
+        public static bool GameOver()
         {
             return (pieces[0] == 0 && pieces[1] == 0 && pieces[2] == 0);
         }
 
-        public void DisplayBoard()
+        public static void DisplayBoard()
         {
             Console.Write("1:");
             for (int firstRow = 0; firstRow < pieces[0]; firstRow++)

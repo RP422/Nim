@@ -18,14 +18,17 @@ namespace Nim
             int[] move = new int[2];
             bool validInput;
             int row, amount = 0;
+
+            int[] pieces = Board.GetBoardState();
+
             do
             {                
                 Console.WriteLine("Player {0}, please pick a row", name);
-                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < Game.pieces.Length;
+                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
                 if (validInput)
                 {
                     Console.WriteLine("Player {0}, please pick an amount",  name);
-                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= Game.pieces[row - 1] && amount > 0);
+                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
                 }
             } while (!validInput);
             move[0] = row;

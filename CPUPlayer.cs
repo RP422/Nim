@@ -11,23 +11,16 @@ namespace Nim
         private static List<int[]> bestmoves = new List<int[]>();
         private static NimState[,,] nimStates;
 
-        private Board board;
-
-        public CPUPlayer(Board board)
-        {
-            this.board = board;
-        }
-
         public static void RegisterNimStates(NimState[,,] states)
         {
             nimStates = states;
         }
-        //Randomly generates a simple CPU move
         public override int[] GetMove()
         {
+            //Randomly generates a simple CPU move
             int[] move = new int[2];
             int[] moveState;
-            int[] pieces = board.GetBoardState();
+            int[] pieces = Board.GetBoardState();
 
             int row, amount = 0;
 
@@ -57,7 +50,7 @@ namespace Nim
                 }
                 move[0] = row;
                 move[1] = amount;
-                bestmoves.Clear(); // We kinda forgot this line of code earlier. This is how we got piece replacement
+                bestmoves.Clear();
             }
 
             return move;
