@@ -10,18 +10,15 @@ namespace Nim
     {
         private static NimState[,,] states = new NimState[4, 6, 8];
         private Game[] games = { new PVPGame(), new PVCGame(), new CVCGame() };
-
         public static void Main(string[] args)
         {
             InitializeNimStates();
             GameController control = new GameController();
         }
-
         public GameController()
         {
             StartGame();
         }
-
         private static void InitializeNimStates()
         {
             for (int x = 0; x < 4; x++)
@@ -52,7 +49,7 @@ namespace Nim
             do
             {
                 choice = Menu(options);
-                numGames = games[choice].GetType().ToString().Equals("Nim.CVCGame") ? GetNumCPUGames() : 1;
+                numGames = isCVCGame(choice) ? GetNumCPUGames() : 1;
                 //     I admit, that statement is a bit weird looking with so many method calls
                 //     Basically we're looking to see if the game chosen was an instance of CVCGame
                 //         and then using that boolean to decide if we want to call GetNumCPUGames()
@@ -64,6 +61,10 @@ namespace Nim
                     games[choice].PlayGame();
                 }
             } while (choice < games.GetLength(0));
+        }
+        public bool isCVCGame(int choice)
+        {
+            return games[choice].GetType().ToString().Equals("Nim.CVCGame");
         }
         public int GetNumCPUGames()
         {
