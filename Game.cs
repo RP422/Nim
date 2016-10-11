@@ -8,38 +8,13 @@ namespace Nim
 {
     public abstract class Game
     {
-        protected Player p1, p2;
         private static NimState[,,] states = new NimState[4, 6, 8];
         private bool turn;
         Board board = new Board();
 
-        public abstract void CreatePlayers();
+        protected abstract Player CreatePlayerOne();
+        protected abstract Player CreatePlayerTwo();
         public abstract string GetPrompt();
-
-        public Game(NimState[,,] states)
-        {
-            InitializeNimStates();
-            GameReviewer.RegisterNimStates(states);
-        }
-
-        private static void InitializeNimStates()
-        {
-            for (int x = 0; x < 4; x++)
-            {
-                for (int y = 0; y < 6; y++)
-                {
-                    for (int z = 0; z < 8; z++)
-                    {
-                        states[x, y, z] = new NimState();
-                    }
-                }
-            }
-        }
-
-        public Game()
-        {
-            CPUPlayer.RegisterNimStates(states);
-        }
 
         public void DecideFirstMove()
         {
@@ -49,6 +24,9 @@ namespace Nim
 
         public void PlayGame()
         {
+            Player p1 = CreatePlayerOne();
+            Player p2 = CreatePlayerTwo();
+
             List<int[]> currentMoveHistory = new List<int[]>();
             bool done = false;
 
