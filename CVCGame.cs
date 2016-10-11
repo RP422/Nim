@@ -10,11 +10,11 @@ namespace Nim
     {
         protected override Player CreatePlayerOne()
         {
-            return new CPUPlayer(GetBoard());
+            return new CPUPlayer();
         }
         protected override Player CreatePlayerTwo()
         {
-            return new CPUPlayer(GetBoard());
+            return new CPUPlayer();
         }
 
         public override string GetPrompt()

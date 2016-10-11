@@ -44,13 +44,13 @@ namespace Nim
             int numGames;
 
             string[] options = new string[games.GetLength(0) + 1]; // That +1 is for the quit option
-            options[games.GetLength(0) - 1] = "Quit";
 
             for (int x = 0; x < games.GetLength(0); x++)
             {
                 options[x] = games[x].GetPrompt();
             }
 
+            options[options.GetLength(0) - 1] = "Quit";
             do
             {
                 choice = Menu(options);

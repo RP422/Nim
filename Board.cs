@@ -9,9 +9,9 @@ namespace Nim
     public class Board
     {
         private static int[] pieces = new int[3];
-        public static const int FIRST_ROW_LENGTH = 3;
-        public static const int SECOND_ROW_LENGTH = 5;
-        public static const int THIRD_ROW_LENGTH = 7;
+        public const int FIRST_ROW_LENGTH = 3;
+        public const int SECOND_ROW_LENGTH = 5;
+        public const int THIRD_ROW_LENGTH = 7;
         public Board()
         {
             ResetBoard();

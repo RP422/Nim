@@ -13,7 +13,7 @@ namespace Nim
 
         public static void RegisterNimStates(NimState[,,] existingReference)
         {
-            existingReference = states;
+            states = existingReference;
         }
 
         public static void ReviewGame(List<int[]> currentMoveHistory)

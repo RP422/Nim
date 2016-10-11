@@ -10,7 +10,7 @@ namespace Nim
     {
         private static NimState[,,] states = new NimState[GameController.FIRST_ROW_START, GameController.SECOND_ROW_START, GameController.THIRD_ROW_START];
         private bool turn;
-        Board board = new Board();
+        Board Board = new Board();
 
         protected abstract Player CreatePlayerOne();
         protected abstract Player CreatePlayerTwo();
@@ -32,13 +32,13 @@ namespace Nim
 
             do
             {
-                board.DisplayBoard();
+                Board.DisplayBoard();
 
                 int[] move = turn ? p1.GetMove() : p2.GetMove();
                 if (move[1] > 0)
                 {
-                    board.RemovePieces((move[0] - 1), move[1]);
-                    currentMoveHistory.Add(board.GetBoardState());
+                    Board.RemovePieces((move[0] - 1), move[1]);
+                    currentMoveHistory.Add(Board.GetBoardState());
 
                     done = GameOver();
 
@@ -51,7 +51,7 @@ namespace Nim
 
             Console.WriteLine("{0} has lost", turn ? p1.GetName() : p2.GetName());
             GameReviewer.ReviewGame(currentMoveHistory);
-            board.ResetBoard();
+            Board.ResetBoard();
         }
         public void ChangeTurn()
         {
@@ -59,12 +59,12 @@ namespace Nim
         }
         public bool GameOver()
         {
-            return board.GameOver();
+            return Board.GameOver();
         }
         
         public Board GetBoard()
         {
-            return board;
+            return Board;
         }
     }
 }
