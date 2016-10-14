@@ -9,6 +9,7 @@ namespace Nim
     public class Board
     {
         private static int[] pieces = new int[3];
+        public const int NUM_ROWS = 3;
         public const int FIRST_ROW_LENGTH = 3;
         public const int SECOND_ROW_LENGTH = 5;
         public const int THIRD_ROW_LENGTH = 7;
@@ -44,26 +45,15 @@ namespace Nim
 
         public static void DisplayBoard()
         {
-            Console.Write("1:");
-            for (int firstRow = 0; firstRow < pieces[0]; firstRow++)
+            for (int i = 0; i < NUM_ROWS; i++)
             {
-                Console.Write(" X ");
+                Console.Write( (i + 1) +":");
+                for (int j = 0; j < pieces[i]; j++)
+                {
+                    Console.Write(" X ");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
-
-            Console.Write("2:");
-            for (int secondRow = 0; secondRow < pieces[1]; secondRow++)
-            {
-                Console.Write(" X ");
-            }
-            Console.WriteLine();
-
-            Console.Write("3:");
-            for (int thirdRow = 0; thirdRow < pieces[2]; thirdRow++)
-            {
-                Console.Write(" X ");
-            }
-            Console.WriteLine();
         }
     }
 }

@@ -17,10 +17,7 @@ namespace Nim
         {
             InitializeNimStates();
             GameController control = new GameController();
-        }
-        public GameController()
-        {
-            StartGame(); 
+            control.StartGame();
         }
         private static void InitializeNimStates()
         {

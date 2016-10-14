@@ -22,7 +22,7 @@ namespace Nim
             int[] moveState;
             int[] pieces = Board.GetBoardState();
 
-            int row, amount = 0;
+            int row = 0, amount = 0;
 
             Random r = new Random();
 
@@ -33,20 +33,13 @@ namespace Nim
                 moveState = bestmoves[r.Next(bestmoves.Count)];
                 Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
 
-                if (moveState[0] != pieces[0]) 
+                for (int i = 0; i < Board.NUM_ROWS; i++)
                 {
-                    amount = pieces[0] - moveState[0];
-                    row = 1;
-                }
-                else if (moveState[1] != pieces[1])
-                {
-                    amount = pieces[1] - moveState[1];
-                    row = 2;
-                }
-                else
-                {
-                    amount = pieces[2] - moveState[2];
-                    row = 3;
+                    if (moveState[i] != pieces[i])
+                    {
+                        amount = pieces[i] - moveState[i];
+                        row = i + 1;
+                    }
                 }
                 move[0] = row;
                 move[1] = amount;
