@@ -74,26 +74,26 @@ namespace Nim
                 }
             }
         }
-        private void BetterMove(int[] temp)
+        private void BetterMove(int[] prospectiveMove)
         {
             if (bestmoves.Count > 0)
             {
                 int[] storedBestMove = bestmoves[0];
-                double movesAverage = nimStates[temp[0], temp[1], temp[2]].averageState;
+                double movesAverage = nimStates[prospectiveMove[0], prospectiveMove[1], prospectiveMove[2]].averageState;
                 double bestMovesAverage = nimStates[storedBestMove[0], storedBestMove[1], storedBestMove[2]].averageState;
                 if (movesAverage > bestMovesAverage)
                 {
                     bestmoves.Clear();
-                    bestmoves.Add(temp);
+                    bestmoves.Add(prospectiveMove);
                 }
                 else if (movesAverage == bestMovesAverage)
                 {
-                    bestmoves.Add(temp);
+                    bestmoves.Add(prospectiveMove);
                 }
             }
             else
             {
-                bestmoves.Add(temp);
+                bestmoves.Add(prospectiveMove);
             }
         }
     }
