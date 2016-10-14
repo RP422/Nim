@@ -32,6 +32,7 @@ namespace Nim
             {
                 moveState = bestmoves[r.Next(bestmoves.Count)];
                 Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
+
                 for (int i = 0; i < Board.NUM_ROWS; i++)
                 {
                     if (moveState[i] != pieces[i])

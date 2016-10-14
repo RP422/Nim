@@ -78,7 +78,7 @@ namespace Nim
 
         public int Menu(string[] options)
         {
-            // Returns the index of the selected option
+            // Returns the index of the selected option, not the number assigned to it here
             int choice;
             bool validInput;
             do

@@ -36,8 +36,10 @@ namespace Nim
                                  && amount > 0;
                 }
             } while (!validInput);
+
             move[0] = row;
             move[1] = amount;
+
             return move;
         }
         public override string GetName()
