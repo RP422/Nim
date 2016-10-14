@@ -81,12 +81,12 @@ namespace Nim
             {
                 int[] storedBestMove = bestmoves[0];
                 double movesAverage = nimStates[temp[0], temp[1], temp[2]].averageState;
-                if (movesAverage > nimStates[storedBestMove[0], storedBestMove[1], storedBestMove[2]].averageState)
+                if (movesAverage > bestMovesAverage)
                 {
                     bestmoves.Clear();
                     bestmoves.Add(temp);
                 }
-                else if (movesAverage == nimStates[storedBestMove[0], storedBestMove[1], storedBestMove[2]].averageState)
+                else if (movesAverage == bestMovesAverage)
                 {
                     bestmoves.Add(temp);
                 }
