@@ -24,11 +24,16 @@ namespace Nim
             do
             {                
                 Console.WriteLine("Player {0}, please pick a row", name);
-                validInput = int.TryParse(Console.ReadLine(), out row) && row > 0 && row - 1 < pieces.Length;
+                validInput = int.TryParse(Console.ReadLine(), out row) 
+                             && row > 0 
+                             && row - 1 < pieces.Length;
+
                 if (validInput)
                 {
                     Console.WriteLine("Player {0}, please pick an amount",  name);
-                    validInput = (int.TryParse(Console.ReadLine(), out amount) && amount <= pieces[row - 1] && amount > 0);
+                    validInput = int.TryParse(Console.ReadLine(), out amount) 
+                                 && amount <= pieces[row - 1] 
+                                 && amount > 0;
                 }
             } while (!validInput);
             move[0] = row;
