@@ -33,7 +33,7 @@ namespace Nim
                 moveState = bestmoves[r.Next(bestmoves.Count)];
                 Console.WriteLine(moveState[0] + "" + moveState[1] + moveState[2]);
 
-                if (moveState[0] != pieces[0])
+                if (moveState[0] != pieces[0]) 
                 {
                     amount = pieces[0] - moveState[0];
                     row = 1;
